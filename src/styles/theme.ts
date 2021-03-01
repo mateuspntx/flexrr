@@ -3,6 +3,8 @@ const theme = {
     backgroundColor: '#0D0D0D',
     text: '#FFFFFF',
     orange: '#FFB800',
+    gray: '#BCBCBC',
+    shimmerEffect: '#292929',
     gradients: {
       orangeToTransparent:
         'linear-gradient(180deg, rgba(255, 184, 0, 0.2) 0%, rgba(255, 184, 0, 0) 100%)',
