@@ -38,7 +38,7 @@ const Tmdb = {
       const data = await fetcher(`/${mediaType}/${id}/images`);
       const jsonData = await data.json();
 
-      return jsonData.backdrops;
+      return jsonData;
     } catch (err) {
       console.log(err);
     }
