@@ -26,21 +26,24 @@ const Hero = ({ id, mediaType }: HeroProps) => {
   featuredImagesList.length = 3;
 
   useEffect(() => {
-    const fetchDetails = async () => {
-      const data = await Tmdb.getDetails(mediaType, id);
+    const fetchData = async () => {
+      try {
+        const [detailsResponse, imagesResponse] = await Promise.all([
+          Tmdb.getDetails(mediaType, id),
+          Tmdb.getImages(mediaType, id),
+        ]);
 
-      setDetailsData(data);
-      setIsLoading(false);
+        setDetailsData(detailsResponse);
+
+        setFeaturedImagesList(imagesResponse.backdrops);
+
+        setIsLoading(false);
+      } catch (err) {
+        console.log(err);
+      }
     };
 
-    const fetchFeaturedImagesList = async () => {
-      const data = await Tmdb.getImages(mediaType, id);
-
-      setFeaturedImagesList(data.backdrops);
-    };
-
-    fetchDetails();
-    fetchFeaturedImagesList();
+    fetchData();
   }, [id, mediaType]);
 
   return (
@@ -72,7 +75,7 @@ const Hero = ({ id, mediaType }: HeroProps) => {
                       {detailsData.genres.map((genre: any) => genre.name).join(', ')}
                     </li>
                   ) : null}
-                  &nbsp;
+
                   {detailsData.release_date ? (
                     <li>
                       {getMovieRuntime(detailsData.runtime).hours}h{' '}
