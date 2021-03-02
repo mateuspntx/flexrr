@@ -1,4 +1,12 @@
-import { Poster, DetailsContainer, Title, Overview } from './styles';
+import React from 'react';
+import {
+  Poster,
+  DetailsContainer,
+  Title,
+  Overview,
+  FeaturedImagesWrapper,
+  FeaturedImage,
+} from './styles';
 
 const HeroSkeleton = () => {
   return (
@@ -7,6 +15,11 @@ const HeroSkeleton = () => {
       <DetailsContainer>
         <Title />
         <Overview />
+        <FeaturedImagesWrapper>
+          <FeaturedImage />
+          <FeaturedImage />
+          <FeaturedImage />
+        </FeaturedImagesWrapper>
       </DetailsContainer>
     </>
   );
