@@ -102,6 +102,17 @@ export const FactsWrapper = styled.ul`
 
     &:nth-child(1) {
       list-style-type: none;
+      margin-bottom: 6px;
+    }
+  }
+
+  @media (max-width: 500px) {
+    flex-wrap: wrap;
+
+    > li {
+      &:nth-child(2) {
+        list-style-type: none;
+      }
     }
   }
 `;
@@ -109,6 +120,10 @@ export const FactsWrapper = styled.ul`
 export const Overview = styled.p`
   margin: 2rem 0;
   font-size: 18px;
+
+  @media (max-width: 920px) {
+    font-size: 16px;
+  }
 `;
 
 export const FeaturedImagesWrapper = styled.div`
