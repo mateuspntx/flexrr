@@ -7,6 +7,7 @@ import Tmdb from '../../services/tmdb';
 import { getMovieReleaseDate } from '../../utils';
 import { getMovieRuntime } from '../../utils';
 
+import Backdrop from '../../components/Backdrop';
 import HeroSkeleton from '../Skeletons/Hero';
 
 import * as S from './styles';
@@ -48,7 +49,7 @@ const Hero = ({ id, mediaType }: HeroProps) => {
 
   return (
     <>
-      <S.Backdrop backgroundSrc={Tmdb.image(`original/${detailsData.backdrop_path}`)} />
+      <Backdrop backdropSrc={Tmdb.image(`original/${detailsData.backdrop_path}`)} />
       <S.Container>
         {isLoading ? (
           <HeroSkeleton />
