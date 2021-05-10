@@ -11,8 +11,7 @@ export const GlobalStyle = createGlobalStyle`
 
   body {
     font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
     -webkit-font-smoothing: antialiased !important;
     background-color: ${({ theme }) => theme.colors.backgroundColor};
     color: ${({ theme }) => theme.colors.text};
@@ -24,5 +23,6 @@ export const GlobalStyle = createGlobalStyle`
 
   a { 
     text-decoration: none;
+    color: ${({ theme }) => theme.colors.text}
   }
 `;

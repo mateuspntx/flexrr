@@ -8,11 +8,12 @@ export const Backdrop = styled.div<BackdropProps>`
   position: absolute;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 100%;
   height: 620px;
   background-image: url('${({ backgroundSrc }) => backgroundSrc}');
   background-size: cover;
   background-position: center;
+  overflow: hidden;
   z-index: -2;
 
   &::before {
@@ -24,6 +25,7 @@ export const Backdrop = styled.div<BackdropProps>`
     height: 620px;
     background: #000000b8;
     backdrop-filter: blur(10px);
+    overflow: hidden;
   }
 
   &::after {
@@ -34,5 +36,6 @@ export const Backdrop = styled.div<BackdropProps>`
     width: 100vw;
     height: 90px;
     background: ${({ theme }) => theme.colors.transparentToBlack};
+    overflow: hidden;
   }
 `;

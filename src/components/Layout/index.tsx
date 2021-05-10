@@ -6,10 +6,9 @@ import Topbar from '../Topbar';
 interface LayoutProps {
   children: React.ReactNode;
   noNavbar?: boolean;
-  showHeader?: boolean;
 }
 
-const Layout = ({ noNavbar, showHeader, children }: LayoutProps) => {
+const Layout = ({ noNavbar, children }: LayoutProps) => {
   return (
     <>
       <Topbar />

@@ -1,9 +1,12 @@
+import Tmdb from '../../services/tmdb';
+
 import Layout from '../../components/Layout';
+import Hero from '../../components/Hero';
 
 const Movies = () => {
   return (
     <Layout>
-      <h1>Movies page</h1>
+      <Hero id={587807} mediaType={'movie'} />
     </Layout>
   );
 };
