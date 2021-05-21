@@ -2,7 +2,7 @@ export interface TrendingResponse {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[] | null;
-  id: number;
+  id: string;
   original_language: string;
   original_title: string | null;
   overview: string;

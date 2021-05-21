@@ -2,6 +2,7 @@ import { Container } from './styles';
 
 import Navbar from '../Navbar';
 import Topbar from '../Topbar';
+import Footer from '../Footer';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -17,6 +18,7 @@ const Layout = ({ noNavbar, children }: LayoutProps) => {
 
         {children}
       </Container>
+      <Footer />
     </>
   );
 };

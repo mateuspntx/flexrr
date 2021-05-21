@@ -1,7 +1,9 @@
 const theme = {
   colors: {
     backgroundColor: '#0D0D0D',
+    backgroundSecondary: '#0a0a0a',
     text: '#FFFFFF',
+    textSecondary: '#a2a2a2',
     orange: '#FFB800',
     gray: '#BCBCBC',
     shimmerEffect: '#292929',
