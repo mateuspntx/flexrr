@@ -42,12 +42,11 @@ const Home = () => {
     };
 
     fetchData();
-    console.log(genresList.action);
   }, []);
 
   return (
     <>
-      <Backdrop backdropSrc={Tmdb.image(`w500/${trendingList[0]?.backdrop_path}`)} />
+      <Backdrop backdropSrc={Tmdb.image(`w1280/${trendingList[0]?.backdrop_path}`)} />
       <Layout>
         <S.WhatsPopular>
           <h1>What's Popular</h1>
@@ -71,7 +70,7 @@ const Home = () => {
             {genresList.action.slice(0, 6).map((item: any) => (
               <Card
                 id={item.id}
-                mediaType={item.media_type}
+                mediaType="movie"
                 title={item.title || item.original_name}
                 posterSrc={item.poster_path}
                 animation={true}
@@ -86,7 +85,7 @@ const Home = () => {
             {genresList.comedy.slice(0, 6).map((item: any) => (
               <Card
                 id={item.id}
-                mediaType={item.media_type}
+                mediaType="movie"
                 title={item.title || item.original_name}
                 posterSrc={item.poster_path}
                 animation={true}

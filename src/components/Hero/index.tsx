@@ -15,7 +15,7 @@ import * as S from './styles';
 type DataResponse = TvResponse & MovieResponse;
 
 interface HeroProps {
-  id: number;
+  id: string;
   mediaType: string;
 }
 
@@ -35,7 +35,6 @@ const Hero = ({ id, mediaType }: HeroProps) => {
         ]);
 
         setDetailsData(detailsResponse);
-
         setFeaturedImagesList(imagesResponse.backdrops);
 
         setIsLoading(false);
@@ -92,7 +91,7 @@ const Hero = ({ id, mediaType }: HeroProps) => {
               <S.FeaturedImagesWrapper>
                 {featuredImagesList.length > 0
                   ? featuredImagesList.map((item: any) => (
-                      <S.FeaturedImage src={Tmdb.image(`original/${item.file_path}`)} />
+                      <S.FeaturedImage src={Tmdb.image(`w500/${item.file_path}`)} />
                     ))
                   : null}
               </S.FeaturedImagesWrapper>

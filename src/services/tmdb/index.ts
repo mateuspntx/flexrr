@@ -26,7 +26,7 @@ const Tmdb = {
     }
   },
 
-  async getDetails(mediaType: string, id: number) {
+  async getDetails(mediaType: string, id: string) {
     try {
       const data = await fetcher(`/${mediaType}/${id}`);
       const jsonData = await data.json();
@@ -37,7 +37,7 @@ const Tmdb = {
     }
   },
 
-  async getImages(mediaType: string, id: number) {
+  async getImages(mediaType: string, id: string) {
     try {
       const data = await fetcher(`/${mediaType}/${id}/images`);
       const jsonData = await data.json();
@@ -67,6 +67,39 @@ const Tmdb = {
       return jsonData;
     } catch (err) {
       console.log(err);
+    }
+  },
+
+  async getCredits(mediaType: string, id: string) {
+    try {
+      const data = await fetcher(`/${mediaType}/${id}/credits`);
+      const jsonData = await data.json();
+
+      return jsonData;
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
+  async getReviews(mediaType: string, id: string) {
+    try {
+      const data = await fetcher(`/${mediaType}/${id}/reviews`);
+      const jsonData = await data.json();
+
+      return jsonData;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
+  async getRecommendations(mediaType: string, id: string) {
+    try {
+      const data = await fetcher(`/${mediaType}/${id}/recommendations`);
+      const jsonData = await data.json();
+
+      return jsonData;
+    } catch (err) {
+      console.error(err);
     }
   },
 };

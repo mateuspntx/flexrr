@@ -25,4 +25,31 @@ export const GlobalStyle = createGlobalStyle`
     text-decoration: none;
     color: ${({ theme }) => theme.colors.text}
   }
+
+  .themed-scroll {
+    ::-webkit-scrollbar {
+    width: 10px;
+    height: 8px;
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #131313;
+
+    height: 8px;
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #2d2d2d;
+    height: 8px;
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+    height: 8px;
+    border-radius: 10px;
+  }
+  }
 `;
