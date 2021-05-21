@@ -1,8 +1,18 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 interface BackdropProps {
   backgroundSrc?: string;
 }
+
+const FadeIn = keyframes`
+   0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+`;
 
 export const Backdrop = styled.div<BackdropProps>`
   position: absolute;
@@ -14,6 +24,7 @@ export const Backdrop = styled.div<BackdropProps>`
   background-size: cover;
   background-position: center;
   overflow: hidden;
+  animation: ${FadeIn} 3s;
   z-index: -2;
 
   &::before {
