@@ -14,7 +14,7 @@ const TvShows = () => {
 
   return (
     <Layout>
-      <Hero id={tvshowId} mediaType="tv" />
+      <Hero id={tvshowId} mediaType="tv" variant="full" />
       <S.ContentContainer>
         <FactsBox id={tvshowId} mediaType="tv" />
         <CastBox id={tvshowId} mediaType="tv" />

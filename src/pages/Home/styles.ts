@@ -6,6 +6,7 @@ export const WhatsPopular = styled.section`
   > h1 {
     font-size: 20px;
     margin-bottom: 15px;
+    text-shadow: 0px 0px 5px #000000cf;
   }
 `;
 

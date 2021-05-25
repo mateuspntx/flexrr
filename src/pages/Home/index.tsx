@@ -5,11 +5,11 @@ import Tmdb from '../../services/tmdb';
 import Layout from '../../components/Layout';
 import Grid from '../../components/Grid';
 import Card from '../../components/Card';
-import Backdrop from '../../components/Backdrop';
 
 import { TrendingResponse } from '../../types/tmdb';
 
 import * as S from './styles';
+import Hero from '../../components/Hero';
 
 const INITIAL_GENRESLIST_STATE = {
   action: [] as any,
@@ -46,17 +46,22 @@ const Home = () => {
 
   return (
     <>
-      <Backdrop backdropSrc={Tmdb.image(`w1280/${trendingList[0]?.backdrop_path}`)} />
       <Layout>
+        <Hero
+          id={trendingList[0]?.id}
+          mediaType={trendingList[0]?.media_type}
+          featured={trendingList[0] as any}
+          variant="simple"
+        />
+
         <S.WhatsPopular>
           <h1>What's Popular</h1>
           <Grid cols={6}>
-            {trendingList.slice(0, 6).map((item) => (
+            {trendingList.slice(1, 7).map((item) => (
               <Card
                 key={item.id}
                 id={item.id}
                 mediaType={item.media_type}
-                title={item.title || item.original_name}
                 posterSrc={item.poster_path}
                 animation={true}
               />
@@ -71,7 +76,6 @@ const Home = () => {
               <Card
                 id={item.id}
                 mediaType="movie"
-                title={item.title || item.original_name}
                 posterSrc={item.poster_path}
                 animation={true}
               />
@@ -86,7 +90,6 @@ const Home = () => {
               <Card
                 id={item.id}
                 mediaType="movie"
-                title={item.title || item.original_name}
                 posterSrc={item.poster_path}
                 animation={true}
               />

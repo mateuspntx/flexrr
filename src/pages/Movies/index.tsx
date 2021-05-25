@@ -14,7 +14,7 @@ const Movies = () => {
 
   return (
     <Layout>
-      <Hero id={movieId} mediaType="movie" />
+      <Hero id={movieId} mediaType="movie" variant="full" />
       <S.ContentContainer>
         <FactsBox id={movieId} mediaType="movie" />
         <CastBox id={movieId} mediaType="movie" />

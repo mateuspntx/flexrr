@@ -2,6 +2,7 @@ import styled, { keyframes } from 'styled-components';
 
 interface BackdropProps {
   backgroundSrc?: string;
+  withBlur?: boolean;
 }
 
 const FadeIn = keyframes`
@@ -34,8 +35,11 @@ export const Backdrop = styled.div<BackdropProps>`
     left: 0;
     width: 100vw;
     height: 620px;
-    background: #000000b8;
-    backdrop-filter: blur(10px);
+    ${({ withBlur }) =>
+      withBlur
+        ? ` background: #000000b8;
+            backdrop-filter: blur(10px);`
+        : `background: linear-gradient(270deg, black, #00000035);`}
     overflow: hidden;
   }
 
