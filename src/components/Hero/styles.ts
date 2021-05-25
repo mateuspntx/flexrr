@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.section`
   display: flex;
-  margin: 3em 0;
+  margin: 2em 0;
   flex-wrap: wrap;
 `;
 
@@ -111,5 +111,47 @@ export const FeaturedImage = styled.img`
 
   @media (max-width: 300px) {
     width: 6rem;
+  }
+`;
+
+export const Featured = styled.section`
+  width: 100%;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-end;
+  padding: 2rem 0;
+  margin-bottom: 1rem;
+  text-shadow: 0px 0px 5px #000000cf;
+
+  > h1:nth-child(1) {
+    font-size: 3em;
+
+    @media (max-width: 920px) {
+      font-size: 2rem;
+      width: 100%;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  > p {
+    min-width: 200px;
+    max-width: 500px;
+    width: 100%;
+    text-align: right;
+
+    @media (max-width: 920px) {
+      text-align: center;
+      font-size: 14px;
+      font-weight: 100;
+    }
+  }
+
+  @media (max-width: 920px) {
+    align-items: center;
   }
 `;

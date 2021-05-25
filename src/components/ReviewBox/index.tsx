@@ -4,6 +4,8 @@ import Tmdb from '../../services/tmdb';
 
 import { ReviewsResponse } from '../../types/tmdb';
 
+import { truncateText } from '../../utils/truncateText';
+
 import DefaultUserAvatar from '../../assets/images/light_default_user-avatar.png';
 import ArrowLeft from '../../assets/images/arrow_left-icon.svg';
 import ArrowRight from '../../assets/images/arrow_right-icon.svg';
@@ -32,14 +34,6 @@ const ReviewBox = ({ id, mediaType }: ReviewBoxProps) => {
       setActiveReview(0);
     } else {
       setActiveReview((prev) => prev + 1);
-    }
-  };
-
-  const truncateText = (text: string, length: number) => {
-    if (text.length > length) {
-      return `${text.slice(0, length)}...`;
-    } else {
-      return text;
     }
   };
 
