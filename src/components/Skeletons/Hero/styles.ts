@@ -1,16 +1,16 @@
-import { ShimmerEffect } from '../ShimmerEffect';
-
 import styled from 'styled-components';
+
+import { ShimmerEffect } from '../ShimmerEffect';
 
 export const Poster = styled.div`
   max-width: 300px;
   min-width: 200px;
   max-height: 450px;
+  min-height: 300px;
   width: 25vw;
-  height: 42vw;
+  height: 100%;
   border-radius: 10px;
   box-shadow: 0px 0px 25px -8px #000000;
-  /* background-color: ${({ theme }) => theme.colors.shimmerEffect}; */
 
   @media (max-width: 920px) {
     margin: auto;
@@ -39,7 +39,6 @@ export const Title = styled.div`
   width: 427px;
   height: 34px;
   border-radius: 5px;
-  /* background-color: ${({ theme }) => theme.colors.shimmerEffect}; */
 
   @media (max-width: 920px) {
     width: 100%;
@@ -53,7 +52,6 @@ export const Overview = styled.div`
   height: 150px;
   margin: 2rem 0;
   border-radius: 5px;
-  /* background-color: ${({ theme }) => theme.colors.shimmerEffect}; */
 
   @media (max-width: 920px) {
     height: 100px;
@@ -88,6 +86,46 @@ export const FeaturedImage = styled.div`
   @media (max-width: 300px) {
     width: 6rem;
     height: 75px;
+  }
+
+  ${ShimmerEffect}
+`;
+
+export const FeaturedWrapper = styled.div`
+  width: 100%;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-end;
+  padding: 1.5rem 0;
+  margin-bottom: 1rem;
+
+  @media (max-width: 920px) {
+    align-items: center;
+    padding: 2rem 0;
+  }
+`;
+
+export const FeaturedTitle = styled.div`
+  width: 400px;
+  height: 30px;
+  border-radius: 5px;
+
+  @media (max-width: 920px) {
+    width: 200px;
+  }
+
+  ${ShimmerEffect}
+`;
+
+export const FeaturedOverview = styled.div`
+  width: 300px;
+  height: 100px;
+  border-radius: 5px;
+
+  @media (max-width: 920px) {
+    height: 80px;
   }
 
   ${ShimmerEffect}

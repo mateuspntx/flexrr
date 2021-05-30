@@ -16,6 +16,6 @@ export const Container = styled.div<ContainerProps>`
 
   @media (max-width: 420px) {
     grid-template-columns: repeat(3, 1fr);
-    gap: 0px 10px;
+    gap: 8px 10px;
   }
 `;

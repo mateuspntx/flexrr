@@ -4,12 +4,12 @@ export const ShimmerEffect = css`
   background-image: linear-gradient(
     -90deg,
     ${({ theme }) => theme.colors.shimmerEffect} 0%,
-    #00000020 50%,
+    #151515 50%,
     ${({ theme }) => theme.colors.shimmerEffect} 100%
   );
 
   background-size: 400% 400%;
-  animation: shimmer 1.2s ease-in-out infinite;
+  animation: shimmer 2s ease-in-out infinite;
 
   @keyframes shimmer {
     0% {

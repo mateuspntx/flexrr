@@ -5,9 +5,12 @@ import { MovieResponse, TvResponse, ImagesResponse } from '../../types/tmdb';
 
 import Tmdb from '../../services/tmdb';
 
-import { getMovieReleaseDate } from '../../utils';
-import { getMovieRuntime } from '../../utils';
-import { truncateText } from '../../utils';
+import {
+  getMovieReleaseDate,
+  shuffleArray,
+  getMovieRuntime,
+  truncateText,
+} from '../../utils';
 
 import Backdrop from '../../components/Backdrop';
 import HeroSkeleton from '../Skeletons/Hero';
@@ -20,11 +23,12 @@ interface HeroProps {
   id: string;
   mediaType: string;
   featured?: Featured;
-  variant?: 'full' | 'simple';
+  variant: 'full' | 'simple';
 }
 
 type Featured = {
   id: string;
+  poster_path: string;
   backdrop_path: string;
   media_type: string;
   title: string;
@@ -39,6 +43,8 @@ const Hero = ({ id, mediaType, variant, featured }: HeroProps) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
+
       try {
         const [detailsResponse, imagesResponse] = await Promise.all([
           Tmdb.getDetails(mediaType, id),
@@ -46,7 +52,7 @@ const Hero = ({ id, mediaType, variant, featured }: HeroProps) => {
         ]);
 
         setDetailsData(detailsResponse);
-        setFeaturedImagesList(imagesResponse.backdrops);
+        setFeaturedImagesList(shuffleArray(imagesResponse.backdrops));
 
         setIsLoading(false);
       } catch (err) {
@@ -61,10 +67,17 @@ const Hero = ({ id, mediaType, variant, featured }: HeroProps) => {
     <>
       {variant === 'full' && (
         <>
-          <Backdrop backdropSrc={Tmdb.image(`w1280/${detailsData.backdrop_path}`)} />
+          {isLoading ? null : (
+            <Backdrop
+              backdropSrc={Tmdb.image(
+                `w1280/${detailsData.backdrop_path || detailsData.poster_path}`
+              )}
+            />
+          )}
+
           <S.Container>
             {isLoading ? (
-              <HeroSkeleton />
+              <HeroSkeleton variant="full" />
             ) : (
               <>
                 <S.PosterContainer>
@@ -105,8 +118,11 @@ const Hero = ({ id, mediaType, variant, featured }: HeroProps) => {
                     {featuredImagesList.length > 0
                       ? featuredImagesList
                           .slice(0, 3)
-                          .map((item: any) => (
-                            <S.FeaturedImage src={Tmdb.image(`w500/${item.file_path}`)} />
+                          .map((item: any, i) => (
+                            <S.FeaturedImage
+                              key={i}
+                              src={Tmdb.image(`w500/${item.file_path}`)}
+                            />
                           ))
                       : null}
                   </S.FeaturedImagesWrapper>
@@ -121,7 +137,9 @@ const Hero = ({ id, mediaType, variant, featured }: HeroProps) => {
         (featured ? (
           <>
             <Backdrop
-              backdropSrc={Tmdb.image(`w1280/${featured.backdrop_path}`)}
+              backdropSrc={Tmdb.image(
+                `original/${featured.backdrop_path || featured.poster_path}`
+              )}
               blur={false}
             />
             <Link to={`${featured.media_type}/${featured.id}`}>
@@ -131,7 +149,9 @@ const Hero = ({ id, mediaType, variant, featured }: HeroProps) => {
               </S.Featured>
             </Link>
           </>
-        ) : null)}
+        ) : (
+          <HeroSkeleton variant="simple" />
+        ))}
     </>
   );
 };

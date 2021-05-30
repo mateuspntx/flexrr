@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import * as S from './styles';
 
 interface BackdropProps {
@@ -6,7 +8,13 @@ interface BackdropProps {
 }
 
 const Backdrop = ({ backdropSrc, blur }: BackdropProps) => {
-  return <S.Backdrop backgroundSrc={backdropSrc} withBlur={blur ?? true} />;
+  const [isLoading, setIsLoading] = useState(true);
+
+  return (
+    <S.Backdrop withBlur={blur ?? true} opacity={isLoading}>
+      <S.Image src={backdropSrc} alt="" onLoad={() => setIsLoading(false)} />
+    </S.Backdrop>
+  );
 };
 
 export default Backdrop;

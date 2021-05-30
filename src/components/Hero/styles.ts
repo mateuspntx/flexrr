@@ -1,9 +1,17 @@
 import styled from 'styled-components';
 
+import { ShimmerEffect } from '../Skeletons/ShimmerEffect';
+
 export const Container = styled.section`
   display: flex;
   margin: 2em 0;
+  height: 455px;
   flex-wrap: wrap;
+
+  @media (max-width: 920px) {
+    margin: auto;
+    height: unset;
+  }
 `;
 
 export const PosterContainer = styled.div`
@@ -15,9 +23,15 @@ export const PosterContainer = styled.div`
 export const Poster = styled.img`
   max-width: 300px;
   min-width: 200px;
+  max-height: 450px;
+  min-height: 300px;
   width: 25vw;
+  height: 100%;
   border-radius: 10px;
   box-shadow: 0px 0px 25px -8px #000000;
+  object-fit: cover;
+
+  ${ShimmerEffect}
 `;
 
 export const DetailsContainer = styled.div`
@@ -104,6 +118,8 @@ export const FeaturedImage = styled.img`
   width: 13vw;
   border-radius: 5px;
   box-shadow: 0px 0px 25px -8px #000000;
+
+  ${ShimmerEffect}
 
   @media (max-width: 920px) {
     width: 10rem;
