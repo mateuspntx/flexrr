@@ -1,7 +1,9 @@
 import styled, { css } from 'styled-components';
 
+import { ShimmerEffect } from '../Skeletons/ShimmerEffect';
 interface ContainerProps {
   hoverAnimation: boolean;
+  isLoading: boolean;
 }
 
 export const Container = styled.div<ContainerProps>`
@@ -9,6 +11,18 @@ export const Container = styled.div<ContainerProps>`
   justify-content: space-between;
   flex-direction: column;
   transition: transform 0.6s ease-in-out;
+  max-width: 150px;
+  min-height: 225px;
+  height: 100%;
+  width: 100%;
+  border-radius: 5px;
+
+  ${({ isLoading }) =>
+    isLoading
+      ? css`
+          ${ShimmerEffect}
+        `
+      : null}
 
   ${({ hoverAnimation }) =>
     hoverAnimation
@@ -20,16 +34,20 @@ export const Container = styled.div<ContainerProps>`
           }
         `
       : null}
+
+@media (max-width: 920px) {
+    min-height: unset;
+  }
 `;
 
-export const PosterWrapper = styled.img`
-  max-width: 150px;
+export const PosterWrapper = styled.img<{ opacity: boolean }>`
+  height: 100%;
   width: 100%;
-  background-image: url('${({ src }) => src}');
-  background-position: center;
-  background-size: cover;
+  object-fit: cover;
   border-radius: 5px;
   box-shadow: 0px 0px 25px -15px #000000;
+  opacity: ${({ opacity }) => (opacity ? 0 : 1)};
+  transition: opacity 0.5s;
 `;
 
 export const Details = styled.div`

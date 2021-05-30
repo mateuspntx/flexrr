@@ -31,19 +31,23 @@ const RecommendationsBox = ({ id, mediaType }: RecommendationsProps) => {
   }, [id, mediaType]);
 
   return (
-    <S.Container>
-      <h1>Recommendations</h1>
-      <S.Wrapper>
-        {recommList.results?.slice(0, 6).map((item) => (
-          <Card
-            key={item.id}
-            id={item.id}
-            mediaType={item.media_type}
-            posterSrc={item.poster_path}
-          />
-        ))}
-      </S.Wrapper>
-    </S.Container>
+    <>
+      {recommList && recommList.results?.length !== 0 ? (
+        <S.Container>
+          <h1>Recommendations</h1>
+          <S.Wrapper>
+            {recommList.results?.slice(0, 6).map((item) => (
+              <Card
+                key={item.id}
+                id={item.id}
+                mediaType={item.media_type}
+                posterSrc={item.poster_path}
+              />
+            ))}
+          </S.Wrapper>
+        </S.Container>
+      ) : null}
+    </>
   );
 };
 

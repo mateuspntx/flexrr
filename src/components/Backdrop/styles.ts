@@ -1,19 +1,9 @@
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 
 interface BackdropProps {
-  backgroundSrc?: string;
   withBlur?: boolean;
+  opacity: boolean;
 }
-
-const FadeIn = keyframes`
-   0% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
-  }
-`;
 
 export const Backdrop = styled.div<BackdropProps>`
   position: absolute;
@@ -21,11 +11,10 @@ export const Backdrop = styled.div<BackdropProps>`
   left: 0;
   width: 100%;
   height: 620px;
-  background-image: url('${({ backgroundSrc }) => backgroundSrc}');
-  background-size: cover;
-  background-position: center;
   overflow: hidden;
-  animation: ${FadeIn} 3s;
+  transition: opacity 2s;
+  opacity: ${({ opacity }) => (opacity ? 0 : 1)};
+  user-select: none;
   z-index: -2;
 
   &::before {
@@ -53,4 +42,10 @@ export const Backdrop = styled.div<BackdropProps>`
     background: ${({ theme }) => theme.colors.transparentToBlack};
     overflow: hidden;
   }
+`;
+
+export const Image = styled.img`
+  width: 100%;
+  height: 620px;
+  object-fit: cover;
 `;

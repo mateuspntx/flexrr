@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { ShimmerEffect } from '../Skeletons/ShimmerEffect';
+import { ShimmerEffect } from '../ShimmerEffect';
 
 export const Container = styled.section`
   display: flex;
@@ -23,7 +23,7 @@ export const Wrapper = styled.div`
   align-items: center;
 `;
 
-export const Photo = styled.img`
+export const Photo = styled.div`
   width: 130px;
   height: 130px;
   border-radius: 100px;
@@ -37,29 +37,31 @@ export const Photo = styled.img`
   }
 `;
 
-export const Name = styled.p`
-  font-weight: bold;
-  font-size: 16px;
+export const Name = styled.div`
+  width: 110px;
+  height: 18px;
   margin-top: 10px;
-  margin-bottom: 3px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  margin-bottom: 5px;
+  border-radius: 3px;
+
+  ${ShimmerEffect}
 
   @media (max-width: 920px) {
-    font-size: 12px;
+    width: 100px;
+    height: 14px;
   }
 `;
 
-export const Character = styled.p`
-  font-size: 14px;
-  color: ${({ theme }) => theme.colors.textSecondary};
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+export const Character = styled.div`
+  width: 70px;
+  height: 14px;
+  border-radius: 3px;
+
+  ${ShimmerEffect}
 
   @media (max-width: 920px) {
-    font-size: 10px;
+    width: 75;
+    height: 12px;
   }
 `;
 

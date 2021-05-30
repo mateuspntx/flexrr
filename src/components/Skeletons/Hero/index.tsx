@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Poster,
   DetailsContainer,
@@ -6,21 +5,41 @@ import {
   Overview,
   FeaturedImagesWrapper,
   FeaturedImage,
+  FeaturedWrapper,
+  FeaturedTitle,
+  FeaturedOverview,
 } from './styles';
 
-const HeroSkeleton = () => {
+interface HeroSkeletonProps {
+  variant: 'simple' | 'full';
+}
+
+const HeroSkeleton = ({ variant }: HeroSkeletonProps) => {
   return (
     <>
-      <Poster />
-      <DetailsContainer>
-        <Title />
-        <Overview />
-        <FeaturedImagesWrapper>
-          <FeaturedImage />
-          <FeaturedImage />
-          <FeaturedImage />
-        </FeaturedImagesWrapper>
-      </DetailsContainer>
+      {variant === 'full' && (
+        <>
+          <Poster />
+          <DetailsContainer>
+            <Title />
+            <Overview />
+            <FeaturedImagesWrapper>
+              <FeaturedImage />
+              <FeaturedImage />
+              <FeaturedImage />
+            </FeaturedImagesWrapper>
+          </DetailsContainer>
+        </>
+      )}
+
+      {variant === 'simple' && (
+        <>
+          <FeaturedWrapper>
+            <FeaturedTitle />
+            <FeaturedOverview />
+          </FeaturedWrapper>
+        </>
+      )}
     </>
   );
 };
