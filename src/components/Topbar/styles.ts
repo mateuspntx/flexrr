@@ -15,7 +15,7 @@ export const GradientBar = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  height: 50px;
-  background: ${({ theme }) => theme.colors.gradients.orangeToTransparent};
+  height: 80px;
+  background: ${({ theme }) => theme.colors.blackToTransparent};
   z-index: -1;
 `;

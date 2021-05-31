@@ -2,13 +2,17 @@ import styled from 'styled-components';
 
 export const Container = styled.nav`
   display: flex;
-  flex-wrap: wrap;
   width: 100%;
   margin: 0 auto;
   align-items: center;
   justify-content: space-between;
   padding: 1.5rem 0;
   color: ${({ theme }) => theme.colors.orange};
+
+  @media (max-width: 500px) {
+    margin-top: -15px;
+    flex-direction: column;
+  }
 `;
 
 export const Logo = styled.h1`
@@ -19,17 +23,29 @@ export const Logo = styled.h1`
   }
 
   @media (max-width: 500px) {
-    margin: 0 auto;
-    margin-bottom: 1rem;
+    margin: 10px auto;
     font-size: 20px;
   }
 `;
 
 export const MenuWrapper = styled.section`
-  a {
-    font-weight: bold;
+  display: flex;
+  height: 100%;
+
+  > a {
+    font-weight: 500;
     font-size: 18px;
     margin-left: 24px;
     color: ${({ theme }) => theme.colors.orange};
+  }
+
+  @media (max-width: 500px) {
+    width: 100%;
+    justify-content: space-around;
+    margin: 0 auto;
+
+    > a {
+      margin-left: unset;
+    }
   }
 `;

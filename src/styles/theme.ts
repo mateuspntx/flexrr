@@ -13,6 +13,8 @@ const theme = {
     },
     transparentToBlack:
       'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(13, 13, 13, 1) 100%)',
+    blackToTransparent:
+      'linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(13, 13, 13, 1) 100%)',
   },
 };
 
