@@ -102,6 +102,21 @@ const Tmdb = {
       console.error(err);
     }
   },
+
+  async getSearch(query: string, mediaType?: string, page?: number) {
+    try {
+      const data = await fetcher(
+        `/search/${mediaType || 'multi'}`,
+        `query=${query}&page=${page || '1'}`
+      );
+
+      const jsonData = await data.json();
+
+      return jsonData;
+    } catch (err) {
+      console.error(err);
+    }
+  },
 };
 
 export default Tmdb;
