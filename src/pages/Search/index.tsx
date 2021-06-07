@@ -3,6 +3,8 @@ import { Redirect, useLocation } from 'react-router';
 
 import Tmdb from '../../services/tmdb';
 
+import useDocumentTitle from '../../hooks/useDocumentTitle';
+
 import Layout from '../../components/Layout';
 import Grid from '../../components/Grid';
 import Card from '../../components/Card';
@@ -57,6 +59,8 @@ const SearchPage = () => {
 
     historyQuery && fetchData();
   }, [historyQuery, searchQuery, pageNumber]);
+
+  useDocumentTitle(`Results for ${historyQuery} - Flexrr`);
 
   const loadMore = () => {
     if (pageNumber === totalPages) {
