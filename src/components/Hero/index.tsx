@@ -17,6 +17,8 @@ import HeroSkeleton from '../Skeletons/Hero';
 
 import * as S from './styles';
 
+import NoPosterPlaceholder from '../../assets/images/no_poster-placeholder.png';
+
 type DataResponse = TvResponse & MovieResponse;
 
 interface HeroProps {
@@ -83,7 +85,9 @@ const Hero = ({ id, mediaType, variant, featured }: HeroProps) => {
                 <S.PosterContainer>
                   {detailsData.poster_path ? (
                     <S.Poster src={Tmdb.image(`w500/${detailsData.poster_path}`)} />
-                  ) : null}
+                  ) : (
+                    <S.Poster src={NoPosterPlaceholder} />
+                  )}
                 </S.PosterContainer>
                 <S.DetailsContainer>
                   <S.DetailsHeader>
