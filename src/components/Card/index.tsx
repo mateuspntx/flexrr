@@ -7,6 +7,7 @@ import CardSkeleton from '../Skeletons/Card';
 
 import * as S from './styles';
 
+import NoPosterPlaceholder from '../../assets/images/no_poster-placeholder.png';
 interface CardProps {
   id: string;
   mediaType: string;
@@ -23,12 +24,21 @@ const Card = ({ id, mediaType, title, posterSrc, animation }: CardProps) => {
       {id || posterSrc ? (
         <Link to={`/${mediaType}/${id}`}>
           <S.Container hoverAnimation={animation || false} isLoading={isLoading}>
-            <S.PosterWrapper
-              src={Tmdb.image(`w300/${posterSrc}`)}
-              loading="lazy"
-              onLoad={() => setIsLoading(false)}
-              opacity={isLoading}
-            />
+            {posterSrc ? (
+              <S.PosterWrapper
+                src={Tmdb.image(`w300/${posterSrc}`)}
+                loading="lazy"
+                onLoad={() => setIsLoading(false)}
+                opacity={isLoading}
+              />
+            ) : (
+              <S.PosterWrapper
+                src={NoPosterPlaceholder}
+                loading="lazy"
+                onLoad={() => setIsLoading(false)}
+                opacity={isLoading}
+              />
+            )}
             {title && (
               <S.Details>
                 <h3>{title}</h3>
