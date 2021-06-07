@@ -54,7 +54,7 @@ export const MenuWrapper = styled.section`
   }
 `;
 
-export const SearchWrapper = styled.div`
+export const SearchWrapper = styled.form`
   display: flex;
   align-items: center;
 
