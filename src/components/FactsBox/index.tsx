@@ -43,7 +43,10 @@ const FactsBox = ({ id, mediaType }: FactsBoxProps) => {
         <b>Original Language</b>
       </p>
       <p>
-        {detailsData.spoken_languages && detailsData.spoken_languages[0].english_name}
+        {detailsData.spoken_languages &&
+          (detailsData.spoken_languages.length === 0
+            ? '-'
+            : detailsData.spoken_languages[0].english_name)}
       </p>
 
       {mediaType === 'movie' && (
