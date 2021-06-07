@@ -18,6 +18,7 @@ import HeroSkeleton from '../Skeletons/Hero';
 import * as S from './styles';
 
 import NoPosterPlaceholder from '../../assets/images/no_poster-placeholder.png';
+import useDocumentTitle from '../../hooks/useDocumentTitle';
 
 type DataResponse = TvResponse & MovieResponse;
 
@@ -64,6 +65,12 @@ const Hero = ({ id, mediaType, variant, featured }: HeroProps) => {
 
     variant === 'full' && fetchData();
   }, [id, mediaType, variant]);
+
+  useDocumentTitle(
+    variant === 'full' && !isLoading
+      ? `${detailsData.title || detailsData.original_name} - Flexrr`
+      : 'Flexrr'
+  );
 
   return (
     <>
