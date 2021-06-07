@@ -8,6 +8,8 @@ import CardSkeleton from '../Skeletons/Card';
 import * as S from './styles';
 
 import NoPosterPlaceholder from '../../assets/images/no_poster-placeholder.png';
+import DefaultUserAvatar from '../../assets/images/light_default_user-avatar.png';
+
 interface CardProps {
   id: string;
   mediaType: string;
@@ -33,17 +35,25 @@ const Card = ({ id, mediaType, title, posterSrc, animation }: CardProps) => {
               />
             ) : (
               <S.PosterWrapper
-                src={NoPosterPlaceholder}
+                src={mediaType === 'person' ? DefaultUserAvatar : NoPosterPlaceholder}
                 loading="lazy"
                 onLoad={() => setIsLoading(false)}
                 opacity={isLoading}
               />
             )}
-            {title && (
-              <S.Details>
-                <h3>{title}</h3>
-              </S.Details>
-            )}
+
+            {title &&
+              (!posterSrc ? (
+                <S.Details>
+                  <h3>{title}</h3>
+                </S.Details>
+              ) : (
+                mediaType === 'person' && (
+                  <S.Details>
+                    <h3>{title}</h3>
+                  </S.Details>
+                )
+              ))}
           </S.Container>
         </Link>
       ) : (

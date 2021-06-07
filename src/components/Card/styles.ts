@@ -59,6 +59,7 @@ export const Details = styled.div`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-align: center;
 
     @media (max-width: 500px) {
       font-size: 14px;

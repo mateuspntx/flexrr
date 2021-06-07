@@ -99,7 +99,8 @@ const SearchPage = () => {
                       key={item.id}
                       id={item.id}
                       mediaType={item.media_type}
-                      posterSrc={item.poster_path}
+                      posterSrc={item.poster_path || item.profile_path}
+                      title={item.name || item.title || item.original_name}
                     />
                   ))
                 : [...Array(6)].map((i) => <CardSkeleton key={i} />)}
