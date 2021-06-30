@@ -12,6 +12,7 @@ export const Poster = styled.div`
 
   @media (max-width: 420px) {
     min-height: unset;
+    min-width: 100px;
     width: 113px;
     height: 170.77px;
   }
