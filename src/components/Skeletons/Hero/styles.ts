@@ -93,17 +93,18 @@ export const FeaturedImage = styled.div`
 
 export const FeaturedWrapper = styled.div`
   width: 100%;
-  height: 200px;
+  height: 520px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: flex-end;
-  padding: 1.5rem 0;
+  padding: 10rem 0;
   margin-bottom: 1rem;
 
   @media (max-width: 920px) {
     align-items: center;
-    padding: 2rem 0;
+    height: 300px;
+    padding: 2rem;
   }
 `;
 
