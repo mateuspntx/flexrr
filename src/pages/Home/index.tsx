@@ -14,31 +14,14 @@ import { TrendingResponse } from '../../types/tmdb';
 
 import * as S from './styles';
 
-const INITIAL_GENRESLIST_STATE = {
-  action: [] as any,
-  comedy: [] as any,
-};
-
 const Home = () => {
   const [trendingList, setTrendingList] = useState([] as TrendingResponse[]);
-  const [genresList, setGenresList] = useState(INITIAL_GENRESLIST_STATE);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [trendingResponse, actionListResponse, comedyListResponse] =
-          await Promise.all([
-            Tmdb.getTrending('all', 'day'),
-            Tmdb.getGenreTrending('movie', 'action'),
-            Tmdb.getGenreTrending('movie', 'comedy'),
-          ]);
-
+        const trendingResponse = await Tmdb.getTrending('all', 'day');
         setTrendingList(shuffleArray(trendingResponse));
-
-        setGenresList({
-          action: actionListResponse.results,
-          comedy: comedyListResponse.results,
-        });
       } catch (err) {
         console.log(err);
       }
@@ -62,7 +45,7 @@ const Home = () => {
           <Grid cols={6}>
             {trendingList.length > 0
               ? trendingList
-                  .slice(1, 7)
+                  .slice(1, 19)
                   .map((item) => (
                     <Card
                       key={item.id}
@@ -75,44 +58,6 @@ const Home = () => {
               : [...Array(6)].map((i) => <CardSkeleton key={i} />)}
           </Grid>
         </S.WhatsPopular>
-
-        <S.ActionGenre>
-          <h1>Action</h1>
-          <Grid cols={6}>
-            {genresList.action.length > 0
-              ? genresList.action
-                  .slice(0, 6)
-                  .map((item: any) => (
-                    <Card
-                      key={item.id}
-                      id={item.id}
-                      mediaType="movie"
-                      posterSrc={item.poster_path}
-                      animation={true}
-                    />
-                  ))
-              : [...Array(6)].map((i) => <CardSkeleton key={i} />)}
-          </Grid>
-        </S.ActionGenre>
-
-        <S.ComedyGenre>
-          <h1>Comedy</h1>
-          <Grid cols={6}>
-            {genresList.comedy.length > 0
-              ? genresList.comedy
-                  .slice(0, 6)
-                  .map((item: any) => (
-                    <Card
-                      key={item.id}
-                      id={item.id}
-                      mediaType="movie"
-                      posterSrc={item.poster_path}
-                      animation={true}
-                    />
-                  ))
-              : [...Array(6)].map((i) => <CardSkeleton key={i} />)}
-          </Grid>
-        </S.ComedyGenre>
       </Layout>
     </>
   );
