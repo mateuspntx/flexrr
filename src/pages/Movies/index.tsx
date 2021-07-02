@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 
 import Tmdb from '../../services/tmdb';
 
+import useDocumentTitle from '../../hooks/useDocumentTitle';
+
 import Layout from '../../components/Layout';
 import Hero from '../../components/Hero';
 import CastBox from '../../components/CastBox';
@@ -63,6 +65,8 @@ const Movies = () => {
 
     !movieId && fetchData();
   }, [movieId]);
+
+  useDocumentTitle('Movies - Flexrr');
 
   return (
     <Layout>

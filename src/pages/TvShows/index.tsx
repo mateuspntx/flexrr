@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 
 import Tmdb from '../../services/tmdb';
 
+import useDocumentTitle from '../../hooks/useDocumentTitle';
+
 import Layout from '../../components/Layout';
 import Hero from '../../components/Hero';
 import CastBox from '../../components/CastBox';
@@ -52,6 +54,8 @@ const TvShows = () => {
 
     !tvshowId && fetchData();
   }, [tvshowId]);
+
+  useDocumentTitle('TV Shows - Flexrr');
 
   return (
     <Layout>
