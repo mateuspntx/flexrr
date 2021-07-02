@@ -36,7 +36,7 @@ const TvShows = () => {
       try {
         const [trendingResponse, comedyListResponse, romanceListResponse] =
           await Promise.all([
-            Tmdb.getTrending('tv', 'week'),
+            Tmdb.getTrending('tv', 'weeke'),
             Tmdb.getGenreTrending('tv', 'comedy'),
             Tmdb.getGenreTrending('tv', 'romance'),
           ]);
@@ -71,18 +71,21 @@ const TvShows = () => {
         </>
       ) : (
         <S.ContentContainer>
-          <Backdrop
-            backdropSrc={Tmdb.image(
-              `w1280/${trendingList[0]?.backdrop_path || trendingList[0]?.poster_path}`
-            )}
-          />
+          {trendingList && (
+            <Backdrop
+              backdropSrc={Tmdb.image(
+                `w1280/${trendingList[0]?.backdrop_path || trendingList[0]?.poster_path}`
+              )}
+            />
+          )}
+
           <S.Header>
             <h1>TV Shows</h1>
             <h2>Popular this Week</h2>
           </S.Header>
 
           <CardsCarousel>
-            {trendingList.length > 0
+            {trendingList?.length > 0
               ? trendingList
                   .slice(0, 19)
                   .map((item) => (

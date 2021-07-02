@@ -82,18 +82,21 @@ const Movies = () => {
         </>
       ) : (
         <S.ContentContainer>
-          <Backdrop
-            backdropSrc={Tmdb.image(
-              `w1280/${trendingList[0]?.backdrop_path || trendingList[0]?.poster_path}`
-            )}
-          />
+          {trendingList && (
+            <Backdrop
+              backdropSrc={Tmdb.image(
+                `w1280/${trendingList[0]?.backdrop_path || trendingList[0]?.poster_path}`
+              )}
+            />
+          )}
+
           <S.Header>
             <h1>Movies</h1>
             <h2>Popular this Week</h2>
           </S.Header>
 
           <CardsCarousel>
-            {trendingList.length > 0
+            {trendingList?.length > 0
               ? trendingList
                   .slice(0, 19)
                   .map((item) => (
