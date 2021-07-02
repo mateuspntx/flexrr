@@ -1,5 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 
+import { ThemedScrollbar } from './ThemedScrollbar';
+
 export const GlobalStyle = createGlobalStyle`
   * {
     margin: 0;
@@ -27,29 +29,6 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   .themed-scroll {
-    ::-webkit-scrollbar {
-    width: 10px;
-    height: 8px;
-    border-radius: 10px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: #131313;
-
-    height: 8px;
-    border-radius: 10px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: #2d2d2d;
-    height: 8px;
-    border-radius: 10px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: #555;
-    height: 8px;
-    border-radius: 10px;
-  }
+    ${ThemedScrollbar}
   }
 `;

@@ -132,12 +132,12 @@ export const FeaturedImage = styled.img`
 
 export const Featured = styled.section`
   width: 100%;
-  height: 200px;
+  height: 520px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: flex-end;
-  padding: 2rem 0;
+  padding: 10rem 0;
   margin-bottom: 1rem;
   text-shadow: 0px 0px 5px #000000cf;
 
@@ -169,5 +169,7 @@ export const Featured = styled.section`
 
   @media (max-width: 920px) {
     align-items: center;
+    height: 300px;
+    padding: 2rem;
   }
 `;

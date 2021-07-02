@@ -12,3 +12,31 @@ export const ContentContainer = styled.section`
     gap: 1rem;
   }
 `;
+
+export const Header = styled.section`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-shadow: 0px 0px 3px #000;
+
+  > h1 {
+    font-size: 3rem;
+  }
+
+  > h2 {
+    font-size: 2rem;
+    font-weight: 400;
+  }
+
+  @media (max-width: 520px) {
+    > h1 {
+      font-size: 2.5rem;
+    }
+
+    > h2 {
+      font-size: 1.5rem;
+    }
+  }
+`;

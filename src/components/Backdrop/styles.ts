@@ -30,6 +30,10 @@ export const Backdrop = styled.div<BackdropProps>`
             backdrop-filter: blur(10px);`
         : `background: linear-gradient(270deg, black, #00000035);`}
     overflow: hidden;
+
+    @media (max-width: 920px) {
+      background: #00000075;
+    }
   }
 
   &::after {
