@@ -17,6 +17,7 @@ export const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased !important;
     background-color: ${({ theme }) => theme.colors.backgroundColor};
     color: ${({ theme }) => theme.colors.text};
+    user-select: none;
   }
 
   button {
