@@ -36,7 +36,7 @@ const TvShows = () => {
       try {
         const [trendingResponse, comedyListResponse, romanceListResponse] =
           await Promise.all([
-            Tmdb.getTrending('tv', 'weeke'),
+            Tmdb.getTrending('tv', 'week'),
             Tmdb.getGenreTrending('tv', 'comedy'),
             Tmdb.getGenreTrending('tv', 'romance'),
           ]);
