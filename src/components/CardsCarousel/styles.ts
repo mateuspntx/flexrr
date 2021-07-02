@@ -4,6 +4,9 @@ import { ThemedScrollbar } from '../../styles/ThemedScrollbar';
 
 export const Container = styled.div`
   width: 100%;
+  position: relative;
+  top: 0;
+  left: 0;
 
   > h1 {
     margin-bottom: 0.5rem;
@@ -47,6 +50,21 @@ export const ScrollWrapper = styled.div`
     @media (max-width: 520px) {
       width: 100px;
       height: 150px;
+    }
+  }
+
+  @media (min-width: 520px) {
+    &::after {
+      content: '';
+      width: 60px;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      right: 0;
+      background-image: ${({ theme }) =>
+        `linear-gradient(to right, rgba(0, 0, 0, 0) 0%, ${theme.colors.backgroundColor} 100%)`};
+      will-change: opacity;
+      pointer-events: none;
     }
   }
 `;
