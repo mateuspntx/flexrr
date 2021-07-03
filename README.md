@@ -42,6 +42,7 @@
 - [react-router-dom](https://reactrouter.com/)
 - [VS Code][vscode] with [EditorConfig][vceditconfig] and [ESLint][vceslint]
 - [Vercel](https://vercel.com/) (Deployment)
+- [TMDB API](https://www.themoviedb.org/)
 
 All design/UI was also made by me.
 
