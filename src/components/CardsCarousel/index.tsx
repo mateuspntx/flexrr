@@ -3,14 +3,15 @@ import * as S from './styles';
 interface CardsCarouselProps {
   children: React.ReactNode;
   title?: string;
+  gradientBar?: boolean;
 }
 
-const CardsCarousel = ({ title, children }: CardsCarouselProps) => {
+const CardsCarousel = ({ title, gradientBar, children }: CardsCarouselProps) => {
   return (
     <S.Container>
       {title && <h1>{title}</h1>}
       <S.CarouselContainer>
-        <S.ScrollWrapper>{children}</S.ScrollWrapper>
+        <S.ScrollWrapper gradientBar={gradientBar || false}>{children}</S.ScrollWrapper>
       </S.CarouselContainer>
     </S.Container>
   );
