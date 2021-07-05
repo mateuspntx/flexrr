@@ -5,8 +5,6 @@ import { MovieResponse, TvResponse, ImagesResponse } from '../../types/tmdb';
 
 import Tmdb from '../../services/tmdb';
 
-import useDocumentTitle from '../../hooks/useDocumentTitle';
-
 import {
   getMovieReleaseDate,
   shuffleArray,
@@ -15,12 +13,12 @@ import {
 } from '../../utils';
 
 import Backdrop from '../../components/Backdrop';
-import CardsCarousel from '../../components/CardsCarousel';
 import HeroSkeleton from '../Skeletons/Hero';
 
 import * as S from './styles';
 
 import NoPosterPlaceholder from '../../assets/images/no_poster-placeholder.png';
+import useDocumentTitle from '../../hooks/useDocumentTitle';
 
 type DataResponse = TvResponse & MovieResponse;
 
@@ -128,17 +126,16 @@ const Hero = ({ id, mediaType, variant, featured }: HeroProps) => {
                   <S.Overview>{detailsData.overview}</S.Overview>
 
                   <S.FeaturedImagesWrapper>
-                    <CardsCarousel>
-                      {featuredImagesList?.length > 0
-                        ? featuredImagesList.map((item: any, i) => (
+                    {featuredImagesList.length > 0
+                      ? featuredImagesList
+                          .slice(0, 3)
+                          .map((item: any, i) => (
                             <S.FeaturedImage
                               key={i}
                               src={Tmdb.image(`w500/${item.file_path}`)}
-                              loading="lazy"
                             />
                           ))
-                        : null}
-                    </CardsCarousel>
+                      : null}
                   </S.FeaturedImagesWrapper>
                 </S.DetailsContainer>
               </>

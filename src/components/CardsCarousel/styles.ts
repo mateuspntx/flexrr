@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 import { ThemedScrollbar } from '../../styles/ThemedScrollbar';
 
@@ -39,7 +39,7 @@ export const CarouselContainer = styled.div`
   }
 `;
 
-export const ScrollWrapper = styled.div<{ gradientBar: boolean }>`
+export const ScrollWrapper = styled.div`
   display: flex;
   flex-direction: row;
 
@@ -54,21 +54,17 @@ export const ScrollWrapper = styled.div<{ gradientBar: boolean }>`
   }
 
   @media (min-width: 520px) {
-    ${({ gradientBar }) =>
-      gradientBar &&
-      css`
-        &::after {
-          content: '';
-          width: 60px;
-          height: 100%;
-          position: absolute;
-          top: 0;
-          right: 0;
-          background-image: ${({ theme }) =>
-            `linear-gradient(to right, rgba(0, 0, 0, 0) 0%, ${theme.colors.backgroundColor} 100%)`};
-          will-change: opacity;
-          pointer-events: none;
-        }
-      `}
+    &::after {
+      content: '';
+      width: 60px;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      right: 0;
+      background-image: ${({ theme }) =>
+        `linear-gradient(to right, rgba(0, 0, 0, 0) 0%, ${theme.colors.backgroundColor} 100%)`};
+      will-change: opacity;
+      pointer-events: none;
+    }
   }
 `;

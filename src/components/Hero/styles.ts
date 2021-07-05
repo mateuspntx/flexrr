@@ -106,15 +106,10 @@ export const Overview = styled.p`
 export const FeaturedImagesWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
   gap: 1rem;
 
   @media (max-width: 920px) {
     justify-content: center;
-  }
-
-  img {
-    margin-right: 10px;
   }
 `;
 

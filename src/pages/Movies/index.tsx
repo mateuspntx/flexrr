@@ -95,7 +95,7 @@ const Movies = () => {
             <h2>Popular this Week</h2>
           </S.Header>
 
-          <CardsCarousel gradientBar>
+          <CardsCarousel>
             {trendingList?.length > 0
               ? trendingList
                   .slice(0, 19)
@@ -110,7 +110,7 @@ const Movies = () => {
               : [...Array(6)].map((i) => <CardSkeleton key={i} />)}
           </CardsCarousel>
 
-          <CardsCarousel title="Action" gradientBar>
+          <CardsCarousel title="Action">
             {genresList.action.length > 0
               ? genresList.action
                   .slice(0, 19)
@@ -125,7 +125,7 @@ const Movies = () => {
               : [...Array(6)].map((i) => <CardSkeleton key={i} />)}
           </CardsCarousel>
 
-          <CardsCarousel title="Romance" gradientBar>
+          <CardsCarousel title="Romance">
             {genresList.romance.length > 0
               ? genresList.romance
                   .slice(0, 19)
@@ -140,7 +140,7 @@ const Movies = () => {
               : [...Array(6)].map((i) => <CardSkeleton key={i} />)}
           </CardsCarousel>
 
-          <CardsCarousel title="Horror" gradientBar>
+          <CardsCarousel title="Horror">
             {genresList.horror.length > 0
               ? genresList.horror
                   .slice(0, 19)
@@ -155,7 +155,7 @@ const Movies = () => {
               : [...Array(6)].map((i) => <CardSkeleton key={i} />)}
           </CardsCarousel>
 
-          <CardsCarousel title="Comedy" gradientBar>
+          <CardsCarousel title="Comedy">
             {genresList.comedy.length > 0
               ? genresList.comedy
                   .slice(0, 19)
