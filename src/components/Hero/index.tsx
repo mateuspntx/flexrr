@@ -7,16 +7,12 @@ import Tmdb from '../../services/tmdb';
 
 import useDocumentTitle from '../../hooks/useDocumentTitle';
 
-import {
-  getMovieReleaseDate,
-  shuffleArray,
-  getMovieRuntime,
-  truncateText,
-} from '../../utils';
+import { getMovieReleaseDate, getMovieRuntime, truncateText } from '../../utils';
 
 import Backdrop from '../../components/Backdrop';
 import CardsCarousel from '../../components/CardsCarousel';
 import HeroSkeleton from '../Skeletons/Hero';
+import Modal from '../Modal';
 
 import * as S from './styles';
 
@@ -42,9 +38,11 @@ type Featured = {
 };
 
 const Hero = ({ id, mediaType, variant, featured }: HeroProps) => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [detailsData, setDetailsData] = useState({} as DataResponse);
   const [featuredImagesList, setFeaturedImagesList] = useState([] as ImagesResponse[]);
+  const [imagesModalIsOpen, setImagesModalIsOpen] = useState<boolean>(false);
+  const [activeImageSrcOnModal, setActiveSrcImageOnModal] = useState<string>('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,7 +55,7 @@ const Hero = ({ id, mediaType, variant, featured }: HeroProps) => {
         ]);
 
         setDetailsData(detailsResponse);
-        setFeaturedImagesList(shuffleArray(imagesResponse.backdrops));
+        setFeaturedImagesList(imagesResponse.backdrops);
 
         setIsLoading(false);
       } catch (err) {
@@ -73,6 +71,15 @@ const Hero = ({ id, mediaType, variant, featured }: HeroProps) => {
       ? `${detailsData.title || detailsData.original_name} - Flexrr`
       : 'Flexrr'
   );
+
+  const handleImagesModalOpen = (imageSrc: string) => {
+    setImagesModalIsOpen(true);
+    setActiveSrcImageOnModal(imageSrc);
+  };
+
+  const handleImagesModalClose = () => {
+    setImagesModalIsOpen(false);
+  };
 
   return (
     <>
@@ -135,11 +142,47 @@ const Hero = ({ id, mediaType, variant, featured }: HeroProps) => {
                               key={i}
                               src={Tmdb.image(`w500/${item.file_path}`)}
                               loading="lazy"
+                              onClick={() =>
+                                handleImagesModalOpen(
+                                  Tmdb.image(`w1280/${item.file_path}`)
+                                )
+                              }
                             />
                           ))
                         : null}
                     </CardsCarousel>
                   </S.FeaturedImagesWrapper>
+
+                  <Modal
+                    title={detailsData.title || detailsData.original_name}
+                    isOpen={imagesModalIsOpen}
+                    onClose={() => handleImagesModalClose()}
+                  >
+                    <img
+                      src={activeImageSrcOnModal}
+                      alt=""
+                      width="100%"
+                      style={{ borderRadius: '5px' }}
+                    />
+                    <S.FeaturedImagesWrapper>
+                      <CardsCarousel>
+                        {featuredImagesList?.length > 0
+                          ? featuredImagesList.map((item: any, i) => (
+                              <S.FeaturedImage
+                                key={i}
+                                src={Tmdb.image(`w500/${item.file_path}`)}
+                                loading="lazy"
+                                onClick={() =>
+                                  handleImagesModalOpen(
+                                    Tmdb.image(`w1280/${item.file_path}`)
+                                  )
+                                }
+                              />
+                            ))
+                          : null}
+                      </CardsCarousel>
+                    </S.FeaturedImagesWrapper>
+                  </Modal>
                 </S.DetailsContainer>
               </>
             )}

@@ -123,6 +123,7 @@ export const FeaturedImage = styled.img`
   width: 13vw;
   border-radius: 5px;
   box-shadow: 0px 0px 25px -8px #000000;
+  cursor: pointer;
 
   ${ShimmerEffect}
 
