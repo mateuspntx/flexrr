@@ -10,7 +10,7 @@ import useDocumentTitle from '../../hooks/useDocumentTitle';
 import { getMovieReleaseDate, getMovieRuntime, truncateText } from '../../utils';
 
 import Backdrop from '../../components/Backdrop';
-import CardsCarousel from '../../components/CardsCarousel';
+import CarouselSlider from '../../components/CarouselSlider';
 import HeroSkeleton from '../Skeletons/Hero';
 import Modal from '../Modal';
 
@@ -135,7 +135,7 @@ const Hero = ({ id, mediaType, variant, featured }: HeroProps) => {
                   <S.Overview>{detailsData.overview}</S.Overview>
 
                   <S.FeaturedImagesWrapper>
-                    <CardsCarousel>
+                    <CarouselSlider>
                       {featuredImagesList?.length > 0
                         ? featuredImagesList.map((item: any, i) => (
                             <S.FeaturedImage
@@ -150,7 +150,7 @@ const Hero = ({ id, mediaType, variant, featured }: HeroProps) => {
                             />
                           ))
                         : null}
-                    </CardsCarousel>
+                    </CarouselSlider>
                   </S.FeaturedImagesWrapper>
 
                   <Modal
@@ -165,7 +165,7 @@ const Hero = ({ id, mediaType, variant, featured }: HeroProps) => {
                       style={{ borderRadius: '5px' }}
                     />
                     <S.FeaturedImagesWrapper>
-                      <CardsCarousel>
+                      <CarouselSlider>
                         {featuredImagesList?.length > 0
                           ? featuredImagesList.map((item: any, i) => (
                               <S.FeaturedImage
@@ -180,7 +180,7 @@ const Hero = ({ id, mediaType, variant, featured }: HeroProps) => {
                               />
                             ))
                           : null}
-                      </CardsCarousel>
+                      </CarouselSlider>
                     </S.FeaturedImagesWrapper>
                   </Modal>
                 </S.DetailsContainer>

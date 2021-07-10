@@ -1,12 +1,12 @@
 import * as S from './styles';
 
-interface CardsCarouselProps {
+interface CarouselSliderProps {
   children: React.ReactNode;
   title?: string;
   gradientBar?: boolean;
 }
 
-const CardsCarousel = ({ title, gradientBar, children }: CardsCarouselProps) => {
+const CarouselSlider = ({ title, gradientBar, children }: CarouselSliderProps) => {
   return (
     <S.Container>
       {title && <h1>{title}</h1>}
@@ -17,4 +17,4 @@ const CardsCarousel = ({ title, gradientBar, children }: CardsCarouselProps) => 
   );
 };
 
-export default CardsCarousel;
+export default CarouselSlider;
