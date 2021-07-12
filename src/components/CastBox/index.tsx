@@ -64,7 +64,9 @@ const CastBox = ({ id, mediaType }: CastBoxProps) => {
                     loading="lazy"
                   />
                   <S.Name>{credit.name}</S.Name>
-                  <S.Character>{credit.character}</S.Character>
+                  <S.Character>
+                    {credit.character || (credit.roles && credit.roles[0].character)}
+                  </S.Character>
                 </S.Wrapper>
               ))}
             </S.ScrollWrapper>
@@ -86,7 +88,9 @@ const CastBox = ({ id, mediaType }: CastBoxProps) => {
                       loading="lazy"
                     />
                     <S.Name>{credit.name}</S.Name>
-                    <S.Character>{credit.character}</S.Character>
+                    <S.Character>
+                      {credit.character || (credit.roles && credit.roles[0].character)}
+                    </S.Character>
                   </S.Wrapper>
                 ))}
 
