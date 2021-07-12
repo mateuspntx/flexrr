@@ -87,6 +87,7 @@ const Hero = ({ id, mediaType, variant, featured }: HeroProps) => {
         <>
           {isLoading ? null : (
             <Backdrop
+              blurWidth={60}
               backdropSrc={Tmdb.image(
                 `w1280/${detailsData.backdrop_path || detailsData.poster_path}`
               )}
