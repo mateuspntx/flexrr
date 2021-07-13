@@ -88,4 +88,20 @@ export const HeaderWrapper = styled.div`
     margin-bottom: 1rem;
     font-size: 1.4em;
   }
+
+  button {
+    background: none;
+    border: none;
+    font-size: 1em;
+    color: ${({ theme }) => theme.colors.text};
+  }
+`;
+
+export const ModalWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  gap: 30px 10px;
 `;

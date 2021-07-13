@@ -14,7 +14,7 @@ import RecommendationsBox from '../../components/RecommendationsBox';
 import Card from '../../components/Card';
 import CardSkeleton from '../../components/Skeletons/Card';
 import Backdrop from '../../components/Backdrop';
-import CardsCarousel from '../../components/CardsCarousel';
+import CarouselSlider from '../../components/CarouselSlider';
 
 import { TrendingResponse } from '../../types/tmdb';
 
@@ -84,7 +84,7 @@ const TvShows = () => {
             <h2>Popular this Week</h2>
           </S.Header>
 
-          <CardsCarousel gradientBar>
+          <CarouselSlider gradientBar>
             {trendingList?.length > 0
               ? trendingList
                   .slice(0, 19)
@@ -97,9 +97,9 @@ const TvShows = () => {
                     />
                   ))
               : [...Array(6)].map((i) => <CardSkeleton key={i} />)}
-          </CardsCarousel>
+          </CarouselSlider>
 
-          <CardsCarousel title="Romance" gradientBar>
+          <CarouselSlider title="Romance" gradientBar>
             {genresList.romance.length > 0
               ? genresList.romance
                   .slice(0, 19)
@@ -112,9 +112,9 @@ const TvShows = () => {
                     />
                   ))
               : [...Array(6)].map((i) => <CardSkeleton key={i} />)}
-          </CardsCarousel>
+          </CarouselSlider>
 
-          <CardsCarousel title="Comedy" gradientBar>
+          <CarouselSlider title="Comedy" gradientBar>
             {genresList.comedy.length > 0
               ? genresList.comedy
                   .slice(0, 19)
@@ -127,7 +127,7 @@ const TvShows = () => {
                     />
                   ))
               : [...Array(6)].map((i) => <CardSkeleton key={i} />)}
-          </CardsCarousel>
+          </CarouselSlider>
         </S.ContentContainer>
       )}
     </Layout>

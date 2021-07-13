@@ -71,8 +71,14 @@ const Tmdb = {
   },
 
   async getCredits(mediaType: string, id: string) {
+    let creditsType = 'credits';
+
+    if (mediaType === 'tv') {
+      creditsType = 'aggregate_credits';
+    }
+
     try {
-      const data = await fetcher(`/${mediaType}/${id}/credits`);
+      const data = await fetcher(`/${mediaType}/${id}/${creditsType}`);
       const jsonData = await data.json();
 
       return jsonData;

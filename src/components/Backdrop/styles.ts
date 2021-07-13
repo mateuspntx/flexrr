@@ -5,6 +5,11 @@ interface BackdropProps {
   opacity: boolean;
 }
 
+interface BlurProps {
+  blurWidth?: number;
+  blurAmount?: number;
+}
+
 export const Backdrop = styled.div<BackdropProps>`
   position: absolute;
   top: 0;
@@ -49,7 +54,22 @@ export const Backdrop = styled.div<BackdropProps>`
 `;
 
 export const Image = styled.img`
-  width: 100%;
+  width: 100vw;
   height: 620px;
   object-fit: cover;
+`;
+
+export const Blur = styled.div<BlurProps>`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  filter: blur(${({ blurAmount }) => blurAmount}px) brightness(60%);
+
+  div {
+    width: ${({ blurWidth }) => blurWidth}%;
+    height: 100%;
+    overflow: hidden;
+  }
 `;

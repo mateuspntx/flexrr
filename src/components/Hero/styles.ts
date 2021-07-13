@@ -7,6 +7,7 @@ export const Container = styled.section`
   margin: 2em 0;
   height: 455px;
   flex-wrap: wrap;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 
   @media (max-width: 920px) {
     margin: auto;
@@ -123,6 +124,7 @@ export const FeaturedImage = styled.img`
   width: 13vw;
   border-radius: 5px;
   box-shadow: 0px 0px 25px -8px #000000;
+  cursor: pointer;
 
   ${ShimmerEffect}
 
