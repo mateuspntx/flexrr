@@ -13,6 +13,7 @@ export const Container = styled.div<{ isOpen: boolean }>`
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(5px);
   overflow: auto;
+  z-index: 999;
 
   @media (max-width: 520px) {
     padding: 0;
