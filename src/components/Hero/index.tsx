@@ -99,13 +99,16 @@ const Hero = ({ id, mediaType, variant, featured }: HeroProps) => {
               <HeroSkeleton variant="full" />
             ) : (
               <>
-                <S.PosterContainer>
+                <S.PosterContainer
+                  posterSrc={Tmdb.image(`w500/${detailsData.poster_path}`)}
+                >
                   {detailsData.poster_path ? (
                     <S.Poster src={Tmdb.image(`w500/${detailsData.poster_path}`)} />
                   ) : (
                     <S.Poster src={NoPosterPlaceholder} />
                   )}
                 </S.PosterContainer>
+
                 <S.DetailsContainer>
                   <S.DetailsHeader>
                     <S.TitleWrapper>
