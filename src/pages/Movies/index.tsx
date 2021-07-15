@@ -84,6 +84,7 @@ const Movies = () => {
         <S.ContentContainer>
           {trendingList && (
             <Backdrop
+              backdropHeight={360}
               backdropSrc={Tmdb.image(
                 `w1280/${trendingList[0]?.backdrop_path || trendingList[0]?.poster_path}`
               )}
