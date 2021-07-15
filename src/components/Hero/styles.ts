@@ -15,7 +15,22 @@ export const Container = styled.section`
   }
 `;
 
-export const PosterContainer = styled.div`
+export const PosterContainer = styled.div<{ posterSrc?: string }>`
+  position: relative;
+
+  &::after {
+    z-index: -1;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('${({ posterSrc }) => posterSrc}');
+    filter: blur(1.5rem);
+    transform: scale(0.9);
+  }
+
   @media (max-width: 920px) {
     margin: auto;
   }
@@ -29,7 +44,7 @@ export const Poster = styled.img`
   width: 25vw;
   height: 100%;
   border-radius: 10px;
-  box-shadow: 0px 0px 25px -8px #000000;
+  /* box-shadow: 0px 0px 25px -8px #000000; */
   object-fit: cover;
 
   ${ShimmerEffect}
