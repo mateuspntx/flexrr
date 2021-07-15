@@ -4,16 +4,23 @@ import * as S from './styles';
 
 interface BackdropProps {
   backdropSrc: string;
+  backdropHeight?: number;
   blur?: boolean;
   blurWidth?: number;
   blurAmount?: number;
 }
 
-const Backdrop = ({ backdropSrc, blur = true, blurWidth, blurAmount }: BackdropProps) => {
+const Backdrop = ({
+  backdropSrc,
+  backdropHeight,
+  blur = true,
+  blurWidth,
+  blurAmount,
+}: BackdropProps) => {
   const [isLoading, setIsLoading] = useState(true);
 
   return (
-    <S.Backdrop opacity={isLoading}>
+    <S.Backdrop opacity={isLoading} backdropHeight={backdropHeight || 620}>
       <S.Image src={backdropSrc} alt="" onLoad={() => setIsLoading(false)} />
 
       {blur && (
