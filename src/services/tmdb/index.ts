@@ -1,3 +1,5 @@
+import { movieGenresIds, tvGenresIds } from './constants';
+
 const TMDB_API_KEY = process.env.REACT_APP_TMDB_API_KEY;
 const TMDB_API_BASE = 'https://api.themoviedb.org/3';
 const TMDB_IMAGES_URL = 'https://image.tmdb.org/t/p';
@@ -122,6 +124,24 @@ const Tmdb = {
     } catch (err) {
       console.error(err);
     }
+  },
+
+  getGenre(mediaType: string, genreId: number) {
+    let actualGenre: string | undefined;
+
+    const movieGenre = movieGenresIds.find((genre) => genre.id === genreId);
+
+    const tvGenre = tvGenresIds.find((genre) => genre.id === genreId);
+
+    if (mediaType === 'movie') {
+      actualGenre = movieGenre?.name;
+    }
+
+    if (mediaType === 'tv') {
+      actualGenre = tvGenre?.name;
+    }
+
+    return actualGenre;
   },
 };
 
