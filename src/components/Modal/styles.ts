@@ -2,7 +2,7 @@ import styled, { keyframes } from 'styled-components';
 
 import { ThemedScrollbar } from '../../styles/ThemedScrollbar';
 
-export const ModalAnimation = keyframes`
+const ModalAnimation = keyframes`
   0% {
     opacity: 0;
     transform: scale(0.95);
@@ -12,6 +12,15 @@ export const ModalAnimation = keyframes`
     opacity: 1;
     transform: scale(1);
   }
+`;
+
+const OpacityAnimation = keyframes`
+0% {
+  opacity: 0;
+}
+
+100% {
+  opacity: 1;}
 `;
 
 export const Container = styled.div<{ isOpen: boolean }>`
@@ -24,7 +33,7 @@ export const Container = styled.div<{ isOpen: boolean }>`
   padding: 2rem;
   background: rgba(0, 0, 0, 0.5);
   overflow: auto;
-
+  animation: ${OpacityAnimation} 0.2s cubic-bezier(0.215, 0.61, 0.355, 1) 0ms;
   z-index: 999;
 
   @media (max-width: 520px) {
