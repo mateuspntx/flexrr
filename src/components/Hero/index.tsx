@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { MovieResponse, TvResponse, ImagesResponse } from '../../types/tmdb';
@@ -72,14 +72,14 @@ const Hero = ({ id, mediaType, variant, featured }: HeroProps) => {
       : 'Flexrr'
   );
 
-  const handleImagesModalOpen = (imageSrc: string) => {
+  const handleImagesModalOpen = useCallback((imageSrc: string) => {
     setImagesModalIsOpen(true);
     setActiveSrcImageOnModal(imageSrc);
-  };
+  }, []);
 
-  const handleImagesModalClose = () => {
+  const handleImagesModalClose = useCallback(() => {
     setImagesModalIsOpen(false);
-  };
+  }, []);
 
   return (
     <>

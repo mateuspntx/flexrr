@@ -19,8 +19,17 @@ const Modal = ({ title, isOpen, onClose, children }: ModalProps) => {
     [onClose]
   );
 
+  const onClickOutside = useCallback(
+    (e: MouseEvent) => {
+      if ((e.target as Element).className === containerRef?.current?.className) {
+        onClose();
+      }
+    },
+    [onClose]
+  );
+
   useEffect(() => {
-    const modalContainer = containerRef;
+    let modalContainer = containerRef;
 
     const whenIsOpen = () => {
       if (isOpen) {
@@ -30,42 +39,40 @@ const Modal = ({ title, isOpen, onClose, children }: ModalProps) => {
       }
     };
 
-    const onClickOutside = (e: MouseEvent) => {
-      if ((e.target as Element).className === modalContainer.current.className) {
-        onClose();
-      }
-    };
-
     whenIsOpen();
 
     window.addEventListener('keydown', handleEscapeKey);
 
-    if (modalContainer?.current) {
+    if (modalContainer.current) {
       modalContainer.current.addEventListener('click', onClickOutside);
 
       return () => {
-        modalContainer?.current &&
-          modalContainer.current.removeEventListener('click', onClickOutside);
+        modalContainer?.current?.removeEventListener('click', onClickOutside);
       };
     }
 
     return () => {
       window.removeEventListener('keydown', handleEscapeKey);
+      document.body.style.overflow = 'unset';
     };
-  }, [isOpen, handleEscapeKey, onClose]);
+  }, [isOpen, handleEscapeKey, onClickOutside]);
 
   return (
-    <S.Container isOpen={isOpen} ref={containerRef}>
-      <S.Wrapper>
-        <S.Header>
-          {title && <h1>{title}</h1>}
-          <button onClick={onClose} title="Close">
-            &times;
-          </button>
-        </S.Header>
-        <S.Content>{children}</S.Content>
-      </S.Wrapper>
-    </S.Container>
+    <>
+      {isOpen ? (
+        <S.Container isOpen={isOpen} ref={containerRef}>
+          <S.Wrapper>
+            <S.Header>
+              {title && <h1>{title}</h1>}
+              <button onClick={onClose} title="Close">
+                &times;
+              </button>
+            </S.Header>
+            <S.Content>{children}</S.Content>
+          </S.Wrapper>
+        </S.Container>
+      ) : null}
+    </>
   );
 };
 
