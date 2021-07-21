@@ -11,10 +11,12 @@ export const Container = styled.section`
   }
 `;
 
-export const Wrapper = styled.section`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  /* margin: 0 auto; */
-  gap: 1rem;
+export const CardWrapper = styled.div`
+  padding-right: 10px;
+
+  @media (max-width: 520px) {
+    &:nth-last-child(1) {
+      padding-right: 15px;
+    }
+  }
 `;
