@@ -14,6 +14,7 @@ type ResultsEntity = {
   title: string;
   original_language: string;
   original_title: string;
+  original_name: string;
   overview: string;
   popularity: number;
   poster_path: string;
@@ -21,4 +22,5 @@ type ResultsEntity = {
   video: boolean;
   vote_average: number;
   vote_count: number;
+  first_air_date: string;
 };
