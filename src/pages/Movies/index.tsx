@@ -98,77 +98,132 @@ const Movies = () => {
 
           <CarouselSlider gradientBar>
             {trendingList?.length > 0
-              ? trendingList
-                  .slice(0, 19)
-                  .map((item) => (
+              ? trendingList.map((item) => (
+                  <S.CardWrapper>
                     <Card
                       key={item.id}
                       id={item.id}
                       mediaType="movie"
                       posterSrc={item.poster_path}
+                      onHoverData={{
+                        title: item.title || item.original_name,
+                        backdropSrc: item.backdrop_path || item.poster_path,
+                        overview: item.overview,
+                        releaseDate: item.release_date || item.first_air_date,
+                        genresIds: item.genre_ids,
+                      }}
                     />
-                  ))
-              : [...Array(6)].map((i) => <CardSkeleton key={i} />)}
+                  </S.CardWrapper>
+                ))
+              : [...Array(7)].map((i) => (
+                  <S.CardWrapper>
+                    <CardSkeleton key={i} />
+                  </S.CardWrapper>
+                ))}
           </CarouselSlider>
 
           <CarouselSlider title="Action" gradientBar>
             {genresList.action.length > 0
-              ? genresList.action
-                  .slice(0, 19)
-                  .map((item: any) => (
+              ? genresList.action.map((item: any) => (
+                  <S.CardWrapper>
                     <Card
                       key={item.id}
                       id={item.id}
                       mediaType="movie"
                       posterSrc={item.poster_path}
+                      onHoverData={{
+                        title: item.title || item.original_name,
+                        backdropSrc: item.backdrop_path || item.poster_path,
+                        overview: item.overview,
+                        releaseDate: item.release_date || item.first_air_date,
+                        genresIds: item.genre_ids,
+                      }}
                     />
-                  ))
-              : [...Array(6)].map((i) => <CardSkeleton key={i} />)}
+                  </S.CardWrapper>
+                ))
+              : [...Array(7)].map((i) => (
+                  <S.CardWrapper>
+                    <CardSkeleton key={i} />
+                  </S.CardWrapper>
+                ))}
           </CarouselSlider>
 
           <CarouselSlider title="Romance" gradientBar>
             {genresList.romance.length > 0
-              ? genresList.romance
-                  .slice(0, 19)
-                  .map((item: any) => (
+              ? genresList.romance.map((item: any) => (
+                  <S.CardWrapper>
                     <Card
                       key={item.id}
                       id={item.id}
                       mediaType="movie"
                       posterSrc={item.poster_path}
+                      onHoverData={{
+                        title: item.title || item.original_name,
+                        backdropSrc: item.backdrop_path || item.poster_path,
+                        overview: item.overview,
+                        releaseDate: item.release_date || item.first_air_date,
+                        genresIds: item.genre_ids,
+                      }}
                     />
-                  ))
-              : [...Array(6)].map((i) => <CardSkeleton key={i} />)}
+                  </S.CardWrapper>
+                ))
+              : [...Array(7)].map((i) => (
+                  <S.CardWrapper>
+                    <CardSkeleton key={i} />
+                  </S.CardWrapper>
+                ))}
           </CarouselSlider>
 
           <CarouselSlider title="Horror" gradientBar>
             {genresList.horror.length > 0
-              ? genresList.horror
-                  .slice(0, 19)
-                  .map((item: any) => (
+              ? genresList.horror.map((item: any) => (
+                  <S.CardWrapper>
                     <Card
                       key={item.id}
                       id={item.id}
                       mediaType="movie"
                       posterSrc={item.poster_path}
+                      onHoverData={{
+                        title: item.title || item.original_name,
+                        backdropSrc: item.backdrop_path || item.poster_path,
+                        overview: item.overview,
+                        releaseDate: item.release_date || item.first_air_date,
+                        genresIds: item.genre_ids,
+                      }}
                     />
-                  ))
-              : [...Array(6)].map((i) => <CardSkeleton key={i} />)}
+                  </S.CardWrapper>
+                ))
+              : [...Array(7)].map((i) => (
+                  <S.CardWrapper>
+                    <CardSkeleton key={i} />
+                  </S.CardWrapper>
+                ))}
           </CarouselSlider>
 
           <CarouselSlider title="Comedy" gradientBar>
             {genresList.comedy.length > 0
-              ? genresList.comedy
-                  .slice(0, 19)
-                  .map((item: any) => (
+              ? genresList.comedy.map((item: any) => (
+                  <S.CardWrapper>
                     <Card
                       key={item.id}
                       id={item.id}
                       mediaType="movie"
                       posterSrc={item.poster_path}
+                      onHoverData={{
+                        title: item.title || item.original_name,
+                        backdropSrc: item.backdrop_path || item.poster_path,
+                        overview: item.overview,
+                        releaseDate: item.release_date || item.first_air_date,
+                        genresIds: item.genre_ids,
+                      }}
                     />
-                  ))
-              : [...Array(6)].map((i) => <CardSkeleton key={i} />)}
+                  </S.CardWrapper>
+                ))
+              : [...Array(7)].map((i) => (
+                  <S.CardWrapper>
+                    <CardSkeleton key={i} />
+                  </S.CardWrapper>
+                ))}
           </CarouselSlider>
         </S.ContentContainer>
       )}

@@ -43,16 +43,6 @@ export const ScrollWrapper = styled.div<{ gradientBar: boolean }>`
   display: flex;
   flex-direction: row;
 
-  div {
-    margin-right: 10px;
-    width: 150px;
-
-    @media (max-width: 520px) {
-      width: 100px;
-      height: 150px;
-    }
-  }
-
   @media (min-width: 520px) {
     ${({ gradientBar }) =>
       gradientBar &&
@@ -66,7 +56,6 @@ export const ScrollWrapper = styled.div<{ gradientBar: boolean }>`
           right: 0;
           background-image: ${({ theme }) =>
             `linear-gradient(to right, rgba(0, 0, 0, 0) 0%, ${theme.colors.backgroundColor} 100%)`};
-          will-change: opacity;
           pointer-events: none;
         }
       `}
