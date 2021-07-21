@@ -1,6 +1,18 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 import { ThemedScrollbar } from '../../styles/ThemedScrollbar';
+
+export const ModalAnimation = keyframes`
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+`;
 
 export const Container = styled.div<{ isOpen: boolean }>`
   display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
@@ -11,8 +23,8 @@ export const Container = styled.div<{ isOpen: boolean }>`
   height: 100vh;
   padding: 2rem;
   background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(5px);
   overflow: auto;
+
   z-index: 999;
 
   @media (max-width: 520px) {
@@ -31,6 +43,7 @@ export const Wrapper = styled.div`
   border-radius: 10px;
   padding: 1rem;
   box-shadow: 0px 0px 20px -5px #000;
+  animation: ${ModalAnimation} 0.2s cubic-bezier(0.215, 0.61, 0.355, 1) 0ms;
 `;
 
 export const Header = styled.div`
