@@ -134,6 +134,23 @@ export const FeaturedImagesWrapper = styled.div`
   }
 `;
 
+export const MoreImagesButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  padding: 0 3rem;
+  background: ${({ theme }) => theme.colors.backgroundSecondary}99;
+  border: none;
+  border-radius: 5px;
+  backdrop-filter: blur(5px);
+
+  img {
+    width: 2rem;
+    margin-right: unset;
+  }
+`;
+
 export const FeaturedImage = styled.img`
   max-width: 12rem;
   width: 13vw;
