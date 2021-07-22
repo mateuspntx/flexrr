@@ -60,15 +60,29 @@ const SearchPage = () => {
     historyQuery && fetchData();
   }, [historyQuery, searchQuery, pageNumber]);
 
+  useEffect(() => {
+    const onScroll = () => {
+      const innerHeight = window.innerHeight;
+      const scrollTop = document.documentElement.scrollTop;
+      const scrollHeight = document?.scrollingElement?.scrollHeight;
+
+      if (innerHeight + scrollTop === scrollHeight) {
+        if (pageNumber === totalPages) {
+          return;
+        }
+
+        setPageNumber((prevPageNumber) => prevPageNumber + 1);
+      }
+    };
+
+    window.addEventListener('scroll', onScroll);
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, [pageNumber, totalPages]);
+
   useDocumentTitle(`Results for ${historyQuery} - Flexrr`);
-
-  const loadMore = () => {
-    if (pageNumber === totalPages) {
-      return;
-    }
-
-    setPageNumber((prevPageNumber) => prevPageNumber + 1);
-  };
 
   return (
     <>
@@ -118,11 +132,7 @@ const SearchPage = () => {
             </Grid>
 
             {pageNumber !== totalPages && totalPages > 1 && (
-              <S.Footer>
-                <button onClick={() => loadMore()}>
-                  {isLoadingMore ? 'Loading..' : 'Load more'}
-                </button>
-              </S.Footer>
+              <S.Footer>{isLoadingMore && 'Loading..'}</S.Footer>
             )}
           </>
         )}
