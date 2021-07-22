@@ -59,7 +59,7 @@ const Hero = ({ id, mediaType, variant, featured }: HeroProps) => {
         setFeaturedImagesList(imagesResponse.backdrops);
 
         setActiveSrcImageOnModal(
-          Tmdb.image(`w1280/${imagesResponse.backdrops[0].file_path}`)
+          Tmdb.image(`w1280/${imagesResponse?.backdrops[0]?.file_path}`)
         );
 
         setIsLoading(false);
