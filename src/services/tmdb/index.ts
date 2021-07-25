@@ -143,6 +143,17 @@ const Tmdb = {
 
     return actualGenre;
   },
+
+  async getVideos(mediaType: string, id: string) {
+    try {
+      const data = await fetcher(`/${mediaType}/${id}/videos`);
+      const jsonData = await data.json();
+
+      return jsonData;
+    } catch (err) {
+      console.error(err);
+    }
+  },
 };
 
 export default Tmdb;

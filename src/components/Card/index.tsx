@@ -44,9 +44,28 @@ const Card = ({ id, mediaType, title, posterSrc, onHoverData }: CardProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isHovering, setIsHovering] = useState<boolean>(false);
   const [position, setPosition] = useState<CardPosition>(CardPositionInitialState);
+  const [mediaVideoId, setMediaVideoId] = useState<string>('');
+  const [videoResponseFetched, setVideoResponseFetched] = useState<boolean>(false);
 
   const cardContainerRef = useRef() as React.RefObject<HTMLDivElement>;
   const hoverContainerRef = useRef() as React.RefObject<HTMLDivElement>;
+
+  const YoutubePlayerOptions = {
+    width: '100%',
+    height: '100%',
+    playerVars: {
+      fs: 0,
+      mute: 1,
+      autoplay: 1,
+      controls: 1,
+      showinfo: 0,
+      autohide: 1,
+      disablekb: 1,
+      modestbranding: 1,
+      cc_load_policy: 0,
+      iv_load_policy: 3,
+    },
+  };
 
   const onMouseOver = useCallback(() => {
     const { top, left, right } =
@@ -58,8 +77,30 @@ const Card = ({ id, mediaType, title, posterSrc, onHoverData }: CardProps) => {
 
     setPosition({ top, left, right });
 
+    const fetchVideoData = async () => {
+      try {
+        if (videoResponseFetched) {
+          return;
+        }
+
+        const videoResponse = await Tmdb.getVideos(mediaType, id);
+
+        const trailerId = videoResponse.results.filter(
+          (video: any) => video.type === 'Trailer'
+        );
+
+        setMediaVideoId(trailerId[0].key);
+
+        setVideoResponseFetched(true);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchVideoData();
+
     setIsHovering(true);
-  }, []);
+  }, [id, mediaType, videoResponseFetched]);
 
   const onMouseLeave = useCallback(() => {
     if (hoverContainerRef.current) {
@@ -72,8 +113,8 @@ const Card = ({ id, mediaType, title, posterSrc, onHoverData }: CardProps) => {
   useEffect(() => {
     let cardContainerRefValue = cardContainerRef.current;
 
-    if (onHoverData && document.body.clientWidth > 900 && cardContainerRefValue) {
-      cardContainerRefValue.addEventListener('mouseover', onMouseOver);
+    if (onHoverData && document.body.clientWidth > 1275 && cardContainerRefValue) {
+      cardContainerRefValue.addEventListener('mouseenter', onMouseOver);
       cardContainerRefValue.addEventListener('mouseleave', onMouseLeave);
 
       return () => {
@@ -119,8 +160,11 @@ const Card = ({ id, mediaType, title, posterSrc, onHoverData }: CardProps) => {
 
             {mediaType !== 'person' && onHoverData && isHovering ? (
               <S.HoverContainer position={position} ref={hoverContainerRef}>
-                <S.HoverImage>
-                  {onHoverData.backdropSrc ? (
+                <S.HoverImageContainer>
+                  {mediaVideoId ? (
+                    /* @ts-ignore */
+                    <S.VideoWrapper videoId={mediaVideoId} opts={YoutubePlayerOptions} />
+                  ) : onHoverData.backdropSrc ? (
                     <img
                       src={Tmdb.image(`w500/${onHoverData.backdropSrc}`)}
                       alt={onHoverData.title}
@@ -128,7 +172,7 @@ const Card = ({ id, mediaType, title, posterSrc, onHoverData }: CardProps) => {
                   ) : (
                     <img src={NoPosterPlaceholder} alt={onHoverData.title} />
                   )}
-                </S.HoverImage>
+                </S.HoverImageContainer>
 
                 <S.HoverDetails>
                   <header>
