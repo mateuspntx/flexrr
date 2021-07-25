@@ -46,5 +46,9 @@ export const CardWrapper = styled.div`
 
   @media (max-width: 520px) {
     margin-right: 5px;
+
+    &:nth-last-child(1) {
+      padding-right: 15px;
+    }
   }
 `;
