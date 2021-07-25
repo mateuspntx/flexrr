@@ -1,5 +1,6 @@
 import styled, { css, keyframes } from 'styled-components';
 import { lighten } from 'polished';
+import YouTube from 'react-youtube';
 
 import { ShimmerEffect } from '../Skeletons/ShimmerEffect';
 
@@ -81,11 +82,11 @@ export const Details = styled.div`
 const HoverContainerAnimation = keyframes`
   0% {
     opacity: 0;
-    transform: scale(1);
+    transform: translateZ(0) scale(0.95);
   }
   100% {
     opacity: 1;
-    transform: scale(1.1);
+    transform: translateZ(0) scale(1.265);
   }
 `;
 
@@ -121,7 +122,7 @@ export const HoverContainer = styled.div<HoverContainerProps>`
     return position.left - 65;
   }}px;
 
-  width: 23vw;
+  width: 25vw;
   height: 25vw;
   max-width: 365px;
   max-height: 375px;
@@ -130,7 +131,6 @@ export const HoverContainer = styled.div<HoverContainerProps>`
   background: ${({ theme }) => lighten(0.05, theme.colors.backgroundSecondary)};
   box-shadow: 0px 0px 10px #000;
   border-radius: 5px;
-  transform: scale(1.2);
   animation: ${HoverContainerAnimation} 0.3s cubic-bezier(0.215, 0.61, 0.355, 1) 400ms
     both;
   text-shadow: 0px 0px 3px #000;
@@ -141,13 +141,13 @@ export const HoverContainer = styled.div<HoverContainerProps>`
   }
 `;
 
-export const HoverImage = styled.div`
+export const HoverImageContainer = styled.div`
   width: 100%;
-  max-height: 192px;
 
   img {
     width: 100%;
     height: 100%;
+    max-height: 192px;
     object-fit: cover;
     border-radius: 5px 5px 0px 0px;
   }
@@ -183,4 +183,12 @@ export const HoverDetails = styled.div`
     justify-content: space-between;
     align-items: baseline;
   }
+`;
+
+export const VideoWrapper = styled(YouTube)`
+  position: relative;
+  width: 100%;
+  height: 20vw;
+  max-height: 205px;
+  border-radius: 5px 5px 0px 0px;
 `;
