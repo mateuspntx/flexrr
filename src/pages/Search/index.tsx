@@ -61,26 +61,26 @@ const SearchPage = () => {
   }, [historyQuery, searchQuery, pageNumber]);
 
   useEffect(() => {
-    const onScroll = () => {
-      const innerHeight = window.innerHeight;
-      const scrollTop = document.documentElement.scrollTop;
-      const scrollHeight = document?.scrollingElement?.scrollHeight;
+    const loadMoreDiv = document.querySelector('#loadMoreDiv') as Element;
 
-      if (innerHeight + scrollTop === scrollHeight) {
+    const options = { rootMargin: '20%', threshold: 1.0 };
+
+    const intersectionObserver = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
         if (pageNumber === totalPages) {
           return;
         }
 
         setPageNumber((prevPageNumber) => prevPageNumber + 1);
       }
-    };
+    }, options);
 
-    window.addEventListener('scroll', onScroll);
+    if (!isLoading && loadMoreDiv) {
+      intersectionObserver.observe(loadMoreDiv);
+    }
 
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-    };
-  }, [pageNumber, totalPages]);
+    return () => intersectionObserver.disconnect();
+  }, [isLoading, pageNumber, totalPages]);
 
   useDocumentTitle(`Results for ${historyQuery} - Flexrr`);
 
@@ -136,6 +136,8 @@ const SearchPage = () => {
             )}
           </>
         )}
+
+        {!isLoading && <div id="loadMoreDiv"></div>}
       </Layout>
     </>
   );
