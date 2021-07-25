@@ -15,7 +15,22 @@ export const Container = styled.section`
   }
 `;
 
-export const PosterContainer = styled.div`
+export const PosterContainer = styled.div<{ posterSrc?: string }>`
+  position: relative;
+
+  &::after {
+    z-index: -1;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('${({ posterSrc }) => posterSrc}');
+    filter: blur(1.5rem);
+    transform: scale(0.9);
+  }
+
   @media (max-width: 920px) {
     margin: auto;
   }
@@ -29,7 +44,7 @@ export const Poster = styled.img`
   width: 25vw;
   height: 100%;
   border-radius: 10px;
-  box-shadow: 0px 0px 25px -8px #000000;
+  /* box-shadow: 0px 0px 25px -8px #000000; */
   object-fit: cover;
 
   ${ShimmerEffect}
@@ -116,6 +131,23 @@ export const FeaturedImagesWrapper = styled.div`
 
   img {
     margin-right: 10px;
+  }
+`;
+
+export const MoreImagesButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  padding: 0 3rem;
+  background: ${({ theme }) => theme.colors.backgroundSecondary}99;
+  border: none;
+  border-radius: 5px;
+  backdrop-filter: blur(5px);
+
+  img {
+    width: 2rem;
+    margin-right: unset;
   }
 `;
 

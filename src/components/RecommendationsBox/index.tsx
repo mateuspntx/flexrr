@@ -7,6 +7,7 @@ import { RecommendationsResponse } from '../../types/tmdb';
 import Card from '../../components/Card';
 
 import * as S from './styles';
+import CarouselSlider from '../CarouselSlider';
 
 interface RecommendationsProps {
   id: string;
@@ -35,16 +36,25 @@ const RecommendationsBox = ({ id, mediaType }: RecommendationsProps) => {
       {recommList && recommList.results?.length !== 0 ? (
         <S.Container>
           <h1>Recommendations</h1>
-          <S.Wrapper>
-            {recommList.results?.slice(0, 6).map((item) => (
-              <Card
-                key={item.id}
-                id={item.id}
-                mediaType={item.media_type}
-                posterSrc={item.poster_path}
-              />
+          <CarouselSlider gradientBar>
+            {recommList.results?.map((item) => (
+              <S.CardWrapper>
+                <Card
+                  key={item.id}
+                  id={item.id}
+                  mediaType={item.media_type}
+                  posterSrc={item.poster_path}
+                  onHoverData={{
+                    title: item.title || item.original_name,
+                    backdropSrc: item.backdrop_path || item.poster_path,
+                    overview: item.overview,
+                    releaseDate: item.release_date || item.first_air_date,
+                    genresIds: item.genre_ids,
+                  }}
+                />
+              </S.CardWrapper>
             ))}
-          </S.Wrapper>
+          </CarouselSlider>
         </S.Container>
       ) : null}
     </>

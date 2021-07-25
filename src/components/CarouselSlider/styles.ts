@@ -2,6 +2,11 @@ import styled, { css } from 'styled-components';
 
 import { ThemedScrollbar } from '../../styles/ThemedScrollbar';
 
+interface ScrollWrapperProps {
+  gradientBar: boolean;
+  isScrollAtEnd: boolean;
+}
+
 export const Container = styled.div`
   width: 100%;
   position: relative;
@@ -39,22 +44,12 @@ export const CarouselContainer = styled.div`
   }
 `;
 
-export const ScrollWrapper = styled.div<{ gradientBar: boolean }>`
+export const ScrollWrapper = styled.div<ScrollWrapperProps>`
   display: flex;
   flex-direction: row;
 
-  div {
-    margin-right: 10px;
-    width: 150px;
-
-    @media (max-width: 520px) {
-      width: 100px;
-      height: 150px;
-    }
-  }
-
   @media (min-width: 520px) {
-    ${({ gradientBar }) =>
+    ${({ gradientBar, isScrollAtEnd }) =>
       gradientBar &&
       css`
         &::after {
@@ -66,8 +61,9 @@ export const ScrollWrapper = styled.div<{ gradientBar: boolean }>`
           right: 0;
           background-image: ${({ theme }) =>
             `linear-gradient(to right, rgba(0, 0, 0, 0) 0%, ${theme.colors.backgroundColor} 100%)`};
-          will-change: opacity;
           pointer-events: none;
+          transition: opacity 0.5s ease-in-out;
+          opacity: ${isScrollAtEnd ? 0 : 1};
         }
       `}
   }

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 interface BackdropProps {
   withBlur?: boolean;
   opacity: boolean;
+  backdropHeight?: number;
 }
 
 interface BlurProps {
@@ -15,7 +16,7 @@ export const Backdrop = styled.div<BackdropProps>`
   top: 0;
   left: 0;
   width: 100%;
-  height: 620px;
+  height: ${({ backdropHeight }) => backdropHeight}px;
   overflow: hidden;
   transition: opacity 2s;
   opacity: ${({ opacity }) => (opacity ? 0 : 1)};
@@ -26,18 +27,19 @@ export const Backdrop = styled.div<BackdropProps>`
     content: '';
     position: absolute;
     top: 0;
-    left: 0;
-    width: 100vw;
-    height: 620px;
+    right: 0;
+    width: 70%;
+    height: 100%;
     ${({ withBlur }) =>
       withBlur
         ? ` background: #000000b8;
             backdrop-filter: blur(10px);`
-        : `background: linear-gradient(270deg, black, #00000035);`}
+        : `background: linear-gradient(270deg, black, #00000000);`}
     overflow: hidden;
 
     @media (max-width: 920px) {
-      background: #00000075;
+      width: 100%;
+      background: #00000050;
     }
   }
 
@@ -51,12 +53,17 @@ export const Backdrop = styled.div<BackdropProps>`
     background: ${({ theme }) => theme.colors.transparentToBlack};
     overflow: hidden;
   }
+
+  @media (max-width: 520px) {
+    height: 420px;
+  }
 `;
 
 export const Image = styled.img`
   width: 100vw;
   height: 620px;
   object-fit: cover;
+  object-position: center top;
 `;
 
 export const Blur = styled.div<BlurProps>`

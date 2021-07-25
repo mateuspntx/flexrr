@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { MovieResponse, TvResponse, ImagesResponse } from '../../types/tmdb';
@@ -17,6 +17,7 @@ import Modal from '../Modal';
 import * as S from './styles';
 
 import NoPosterPlaceholder from '../../assets/images/no_poster-placeholder.png';
+import ArrowRight from '../../assets/images/arrow_right-icon.svg';
 
 type DataResponse = TvResponse & MovieResponse;
 
@@ -57,6 +58,10 @@ const Hero = ({ id, mediaType, variant, featured }: HeroProps) => {
         setDetailsData(detailsResponse);
         setFeaturedImagesList(imagesResponse.backdrops);
 
+        setActiveSrcImageOnModal(
+          Tmdb.image(`w1280/${imagesResponse?.backdrops[0]?.file_path}`)
+        );
+
         setIsLoading(false);
       } catch (err) {
         console.log(err);
@@ -72,14 +77,15 @@ const Hero = ({ id, mediaType, variant, featured }: HeroProps) => {
       : 'Flexrr'
   );
 
-  const handleImagesModalOpen = (imageSrc: string) => {
-    setImagesModalIsOpen(true);
-    setActiveSrcImageOnModal(imageSrc);
-  };
+  const handleImagesModalOpen = useCallback((imageSrc?: string) => {
+    imageSrc && setActiveSrcImageOnModal(imageSrc);
 
-  const handleImagesModalClose = () => {
+    setImagesModalIsOpen(true);
+  }, []);
+
+  const handleImagesModalClose = useCallback(() => {
     setImagesModalIsOpen(false);
-  };
+  }, []);
 
   return (
     <>
@@ -99,13 +105,16 @@ const Hero = ({ id, mediaType, variant, featured }: HeroProps) => {
               <HeroSkeleton variant="full" />
             ) : (
               <>
-                <S.PosterContainer>
+                <S.PosterContainer
+                  posterSrc={Tmdb.image(`w500/${detailsData.poster_path}`)}
+                >
                   {detailsData.poster_path ? (
                     <S.Poster src={Tmdb.image(`w500/${detailsData.poster_path}`)} />
                   ) : (
                     <S.Poster src={NoPosterPlaceholder} />
                   )}
                 </S.PosterContainer>
+
                 <S.DetailsContainer>
                   <S.DetailsHeader>
                     <S.TitleWrapper>
@@ -138,19 +147,27 @@ const Hero = ({ id, mediaType, variant, featured }: HeroProps) => {
                   <S.FeaturedImagesWrapper>
                     <CarouselSlider>
                       {featuredImagesList?.length > 0
-                        ? featuredImagesList.map((item: any, i) => (
-                            <S.FeaturedImage
-                              key={i}
-                              src={Tmdb.image(`w500/${item.file_path}`)}
-                              loading="lazy"
-                              onClick={() =>
-                                handleImagesModalOpen(
-                                  Tmdb.image(`w1280/${item.file_path}`)
-                                )
-                              }
-                            />
-                          ))
+                        ? featuredImagesList
+                            .slice(0, 5)
+                            .map((item: any, i) => (
+                              <S.FeaturedImage
+                                key={i}
+                                src={Tmdb.image(`w500/${item.file_path}`)}
+                                loading="lazy"
+                                onClick={() =>
+                                  handleImagesModalOpen(
+                                    Tmdb.image(`w1280/${item.file_path}`)
+                                  )
+                                }
+                              />
+                            ))
                         : null}
+
+                      {featuredImagesList?.length > 5 && (
+                        <S.MoreImagesButton onClick={() => handleImagesModalOpen()}>
+                          <img src={ArrowRight} alt="See more images" />
+                        </S.MoreImagesButton>
+                      )}
                     </CarouselSlider>
                   </S.FeaturedImagesWrapper>
 

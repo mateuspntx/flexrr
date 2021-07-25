@@ -40,3 +40,11 @@ export const Header = styled.section`
     }
   }
 `;
+
+export const CardWrapper = styled.div`
+  margin-right: 10px;
+
+  @media (max-width: 520px) {
+    margin-right: 5px;
+  }
+`;

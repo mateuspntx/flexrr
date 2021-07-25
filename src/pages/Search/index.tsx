@@ -60,15 +60,29 @@ const SearchPage = () => {
     historyQuery && fetchData();
   }, [historyQuery, searchQuery, pageNumber]);
 
-  useDocumentTitle(`Results for ${historyQuery} - Flexrr`);
+  useEffect(() => {
+    const loadMoreDiv = document.querySelector('#loadMoreDiv') as Element;
 
-  const loadMore = () => {
-    if (pageNumber === totalPages) {
-      return;
+    const options = { rootMargin: '20%', threshold: 1.0 };
+
+    const intersectionObserver = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+        if (pageNumber === totalPages) {
+          return;
+        }
+
+        setPageNumber((prevPageNumber) => prevPageNumber + 1);
+      }
+    }, options);
+
+    if (!isLoading && loadMoreDiv) {
+      intersectionObserver.observe(loadMoreDiv);
     }
 
-    setPageNumber((prevPageNumber) => prevPageNumber + 1);
-  };
+    return () => intersectionObserver.disconnect();
+  }, [isLoading, pageNumber, totalPages]);
+
+  useDocumentTitle(`Results for ${historyQuery} - Flexrr`);
 
   return (
     <>
@@ -105,20 +119,25 @@ const SearchPage = () => {
                       mediaType={item.media_type}
                       posterSrc={item.poster_path || item.profile_path}
                       title={item.name || item.title || item.original_name}
+                      onHoverData={{
+                        title: item.title || item.original_name,
+                        backdropSrc: item.backdrop_path || item.poster_path,
+                        overview: item.overview,
+                        releaseDate: item.release_date || item.first_air_date,
+                        genresIds: item.genre_ids,
+                      }}
                     />
                   ))
                 : [...Array(6)].map((i) => <CardSkeleton key={i} />)}
             </Grid>
 
             {pageNumber !== totalPages && totalPages > 1 && (
-              <S.Footer>
-                <button onClick={() => loadMore()}>
-                  {isLoadingMore ? 'Loading..' : 'Load more'}
-                </button>
-              </S.Footer>
+              <S.Footer>{isLoadingMore && 'Loading..'}</S.Footer>
             )}
           </>
         )}
+
+        {!isLoading && <div id="loadMoreDiv"></div>}
       </Layout>
     </>
   );
