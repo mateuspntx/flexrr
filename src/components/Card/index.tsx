@@ -113,7 +113,7 @@ const Card = ({ id, mediaType, title, posterSrc, onHoverData }: CardProps) => {
   useEffect(() => {
     let cardContainerRefValue = cardContainerRef.current;
 
-    if (onHoverData && document.body.clientWidth > 1275 && cardContainerRefValue) {
+    if (onHoverData && document.body.clientWidth > 1260 && cardContainerRefValue) {
       cardContainerRefValue.addEventListener('mouseenter', onMouseOver);
       cardContainerRefValue.addEventListener('mouseleave', onMouseLeave);
 

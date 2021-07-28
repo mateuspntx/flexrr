@@ -123,7 +123,7 @@ export const HoverContainer = styled.div<HoverContainerProps>`
   }}px;
 
   width: 25vw;
-  height: 25vw;
+  height: 35vw;
   max-width: 365px;
   max-height: 375px;
   display: flex;
