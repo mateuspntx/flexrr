@@ -44,8 +44,12 @@ const Card = ({ id, mediaType, title, posterSrc, onHoverData }: CardProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isHovering, setIsHovering] = useState<boolean>(false);
   const [position, setPosition] = useState<CardPosition>(CardPositionInitialState);
+
   const [mediaVideoId, setMediaVideoId] = useState<string>('');
   const [videoResponseFetched, setVideoResponseFetched] = useState<boolean>(false);
+  const [canShowVideo, setCanShowVideo] = useState<boolean>(true);
+  const [playVideoOpacityAnimation, setPlayVideoOpacityAnimation] =
+    useState<boolean>(false);
 
   const cardContainerRef = useRef() as React.RefObject<HTMLDivElement>;
   const hoverContainerRef = useRef() as React.RefObject<HTMLDivElement>;
@@ -67,7 +71,11 @@ const Card = ({ id, mediaType, title, posterSrc, onHoverData }: CardProps) => {
     },
   };
 
-  const onMouseOver = useCallback(() => {
+  const onMouseEnter = useCallback(() => {
+    if (!cardContainerRef || !cardContainerRef.current) {
+      return;
+    }
+
     const { top, left, right } =
       cardContainerRef?.current?.getBoundingClientRect() as DOMRect;
 
@@ -86,7 +94,7 @@ const Card = ({ id, mediaType, title, posterSrc, onHoverData }: CardProps) => {
         const videoResponse = await Tmdb.getVideos(mediaType, id);
 
         const trailerId = videoResponse.results.filter(
-          (video: any) => video.type === 'Trailer'
+          (video: { type: string }) => video.type === 'Trailer'
         );
 
         setMediaVideoId(trailerId[0].key);
@@ -107,22 +115,51 @@ const Card = ({ id, mediaType, title, posterSrc, onHoverData }: CardProps) => {
       hoverContainerRef.current.style.willChange = 'auto';
     }
 
+    setPlayVideoOpacityAnimation(false);
+    setCanShowVideo(true);
+
     setIsHovering(false);
   }, []);
 
   useEffect(() => {
     let cardContainerRefValue = cardContainerRef.current;
+    let onHoverCheck = onHoverData && document.body.clientWidth > 1260;
+    let onHoverTimer: any;
 
-    if (onHoverData && document.body.clientWidth > 1260 && cardContainerRefValue) {
-      cardContainerRefValue.addEventListener('mouseenter', onMouseOver);
-      cardContainerRefValue.addEventListener('mouseleave', onMouseLeave);
+    if (onHoverCheck && cardContainerRefValue) {
+      cardContainerRefValue.addEventListener('mouseenter', () => {
+        onHoverTimer = setTimeout(() => {
+          onMouseEnter();
+        }, 500);
+      });
+
+      cardContainerRefValue.addEventListener('mouseleave', () => {
+        clearTimeout(onHoverTimer);
+        onMouseLeave();
+      });
 
       return () => {
-        cardContainerRefValue?.removeEventListener('mouseenter', onMouseOver);
-        cardContainerRefValue?.removeEventListener('mouseleave', onMouseLeave);
+        cardContainerRefValue?.removeEventListener('mouseenter', () => {
+          onHoverTimer();
+          onMouseEnter();
+        });
+        cardContainerRefValue?.removeEventListener('mouseleave', () => {
+          clearTimeout(onHoverTimer);
+          onMouseLeave();
+        });
       };
     }
-  }, [onMouseOver, onMouseLeave, onHoverData]);
+  }, [onMouseEnter, onMouseLeave, onHoverData]);
+
+  const onYoutubeVideoReady = (e: { target: { getPlayerState: () => number } }) => {
+    if (e.target.getPlayerState() === -1) {
+      setCanShowVideo(false);
+
+      return;
+    }
+
+    setPlayVideoOpacityAnimation(true);
+  };
 
   return (
     <>
@@ -161,16 +198,25 @@ const Card = ({ id, mediaType, title, posterSrc, onHoverData }: CardProps) => {
             {mediaType !== 'person' && onHoverData && isHovering ? (
               <S.HoverContainer position={position} ref={hoverContainerRef}>
                 <S.HoverImageContainer>
-                  {mediaVideoId ? (
-                    /* @ts-ignore */
-                    <S.VideoWrapper videoId={mediaVideoId} opts={YoutubePlayerOptions} />
-                  ) : onHoverData.backdropSrc ? (
-                    <img
-                      src={Tmdb.image(`w500/${onHoverData.backdropSrc}`)}
-                      alt={onHoverData.title}
+                  <S.FallbackBackdrop>
+                    {onHoverData.backdropSrc ? (
+                      <img
+                        src={Tmdb.image(`w500/${onHoverData.backdropSrc}`)}
+                        alt={onHoverData.title}
+                      />
+                    ) : (
+                      <img src={NoPosterPlaceholder} alt={onHoverData.title} />
+                    )}
+                  </S.FallbackBackdrop>
+
+                  {mediaVideoId && canShowVideo && (
+                    <S.VideoWrapper
+                      videoId={mediaVideoId}
+                      /* @ts-ignore */
+                      opts={YoutubePlayerOptions}
+                      onReady={onYoutubeVideoReady}
+                      playVideoOpacityAnimation={playVideoOpacityAnimation}
                     />
-                  ) : (
-                    <img src={NoPosterPlaceholder} alt={onHoverData.title} />
                   )}
                 </S.HoverImageContainer>
 

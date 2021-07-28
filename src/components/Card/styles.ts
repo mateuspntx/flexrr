@@ -4,6 +4,8 @@ import YouTube from 'react-youtube';
 
 import { ShimmerEffect } from '../Skeletons/ShimmerEffect';
 
+import { OpacityAnimation } from '../../styles/animations';
+
 import { CardPosition } from './index';
 
 interface HoverContainerProps {
@@ -131,8 +133,7 @@ export const HoverContainer = styled.div<HoverContainerProps>`
   background: ${({ theme }) => lighten(0.05, theme.colors.backgroundSecondary)};
   box-shadow: 0px 0px 10px #000;
   border-radius: 5px;
-  animation: ${HoverContainerAnimation} 0.3s cubic-bezier(0.215, 0.61, 0.355, 1) 400ms
-    both;
+  animation: ${HoverContainerAnimation} 0.3s cubic-bezier(0.215, 0.61, 0.355, 1) 1ms both;
   text-shadow: 0px 0px 3px #000;
   z-index: 100;
 
@@ -143,14 +144,6 @@ export const HoverContainer = styled.div<HoverContainerProps>`
 
 export const HoverImageContainer = styled.div`
   width: 100%;
-
-  img {
-    width: 100%;
-    height: 100%;
-    max-height: 192px;
-    object-fit: cover;
-    border-radius: 5px 5px 0px 0px;
-  }
 `;
 
 export const HoverDetails = styled.div`
@@ -160,7 +153,7 @@ export const HoverDetails = styled.div`
   justify-content: space-around;
   padding: 0 1rem;
   gap: 5px;
-  animation: ${HoverDetailsAnimation} 0.4s 450ms both;
+  animation: ${HoverDetailsAnimation} 0.4s 30ms both;
 
   p {
     font-size: clamp(12px, 1vw, 16px);
@@ -185,10 +178,34 @@ export const HoverDetails = styled.div`
   }
 `;
 
-export const VideoWrapper = styled(YouTube)`
-  position: relative;
+export const VideoWrapper = styled(YouTube)<{ playVideoOpacityAnimation?: boolean }>`
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 20vw;
   max-height: 205px;
   border-radius: 5px 5px 0px 0px;
+  opacity: 0;
+
+  ${({ playVideoOpacityAnimation }) =>
+    playVideoOpacityAnimation &&
+    css`
+      animation: ${OpacityAnimation} 0.4s 0ms both;
+    `}
+`;
+
+export const FallbackBackdrop = styled.div`
+  position: relative;
+  width: 100%;
+  height: 20vw;
+  max-height: 205px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    max-height: 205px;
+    object-fit: cover;
+    border-radius: 5px 5px 0px 0px;
+  }
 `;
