@@ -1,7 +1,10 @@
 import styled, { css, keyframes } from 'styled-components';
 import { lighten } from 'polished';
+import YouTube from 'react-youtube';
 
 import { ShimmerEffect } from '../Skeletons/ShimmerEffect';
+
+import { OpacityAnimation } from '../../styles/animations';
 
 import { CardPosition } from './index';
 
@@ -81,11 +84,11 @@ export const Details = styled.div`
 const HoverContainerAnimation = keyframes`
   0% {
     opacity: 0;
-    transform: scale(1);
+    transform: translateZ(0) scale(0.95);
   }
   100% {
     opacity: 1;
-    transform: scale(1.1);
+    transform: translateZ(0) scale(1.265);
   }
 `;
 
@@ -121,8 +124,8 @@ export const HoverContainer = styled.div<HoverContainerProps>`
     return position.left - 65;
   }}px;
 
-  width: 23vw;
-  height: 25vw;
+  width: 25vw;
+  height: 35vw;
   max-width: 365px;
   max-height: 375px;
   display: flex;
@@ -130,9 +133,7 @@ export const HoverContainer = styled.div<HoverContainerProps>`
   background: ${({ theme }) => lighten(0.05, theme.colors.backgroundSecondary)};
   box-shadow: 0px 0px 10px #000;
   border-radius: 5px;
-  transform: scale(1.2);
-  animation: ${HoverContainerAnimation} 0.3s cubic-bezier(0.215, 0.61, 0.355, 1) 400ms
-    both;
+  animation: ${HoverContainerAnimation} 0.3s cubic-bezier(0.215, 0.61, 0.355, 1) 1ms both;
   text-shadow: 0px 0px 3px #000;
   z-index: 100;
 
@@ -141,16 +142,8 @@ export const HoverContainer = styled.div<HoverContainerProps>`
   }
 `;
 
-export const HoverImage = styled.div`
+export const HoverImageContainer = styled.div`
   width: 100%;
-  max-height: 192px;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 5px 5px 0px 0px;
-  }
 `;
 
 export const HoverDetails = styled.div`
@@ -160,7 +153,7 @@ export const HoverDetails = styled.div`
   justify-content: space-around;
   padding: 0 1rem;
   gap: 5px;
-  animation: ${HoverDetailsAnimation} 0.4s 450ms both;
+  animation: ${HoverDetailsAnimation} 0.4s 30ms both;
 
   p {
     font-size: clamp(12px, 1vw, 16px);
@@ -182,5 +175,37 @@ export const HoverDetails = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: baseline;
+  }
+`;
+
+export const VideoWrapper = styled(YouTube)<{ playVideoOpacityAnimation?: boolean }>`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 20vw;
+  max-height: 205px;
+  border-radius: 5px 5px 0px 0px;
+  opacity: 0;
+
+  ${({ playVideoOpacityAnimation }) =>
+    playVideoOpacityAnimation &&
+    css`
+      animation: ${OpacityAnimation} 0.4s 0ms both;
+    `}
+`;
+
+export const FallbackBackdrop = styled.div`
+  position: relative;
+  width: 100%;
+  height: 20vw;
+  max-height: 205px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    max-height: 205px;
+    object-fit: cover;
+    border-radius: 5px 5px 0px 0px;
   }
 `;

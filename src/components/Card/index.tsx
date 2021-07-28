@@ -45,10 +45,37 @@ const Card = ({ id, mediaType, title, posterSrc, onHoverData }: CardProps) => {
   const [isHovering, setIsHovering] = useState<boolean>(false);
   const [position, setPosition] = useState<CardPosition>(CardPositionInitialState);
 
+  const [mediaVideoId, setMediaVideoId] = useState<string>('');
+  const [videoResponseFetched, setVideoResponseFetched] = useState<boolean>(false);
+  const [canShowVideo, setCanShowVideo] = useState<boolean>(true);
+  const [playVideoOpacityAnimation, setPlayVideoOpacityAnimation] =
+    useState<boolean>(false);
+
   const cardContainerRef = useRef() as React.RefObject<HTMLDivElement>;
   const hoverContainerRef = useRef() as React.RefObject<HTMLDivElement>;
 
-  const onMouseOver = useCallback(() => {
+  const YoutubePlayerOptions = {
+    width: '100%',
+    height: '100%',
+    playerVars: {
+      fs: 0,
+      mute: 1,
+      autoplay: 1,
+      controls: 1,
+      showinfo: 0,
+      autohide: 1,
+      disablekb: 1,
+      modestbranding: 1,
+      cc_load_policy: 0,
+      iv_load_policy: 3,
+    },
+  };
+
+  const onMouseEnter = useCallback(() => {
+    if (!cardContainerRef || !cardContainerRef.current) {
+      return;
+    }
+
     const { top, left, right } =
       cardContainerRef?.current?.getBoundingClientRect() as DOMRect;
 
@@ -58,30 +85,81 @@ const Card = ({ id, mediaType, title, posterSrc, onHoverData }: CardProps) => {
 
     setPosition({ top, left, right });
 
+    const fetchVideoData = async () => {
+      try {
+        if (videoResponseFetched) {
+          return;
+        }
+
+        const videoResponse = await Tmdb.getVideos(mediaType, id);
+
+        const trailerId = videoResponse.results.filter(
+          (video: { type: string }) => video.type === 'Trailer'
+        );
+
+        setMediaVideoId(trailerId[0].key);
+
+        setVideoResponseFetched(true);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchVideoData();
+
     setIsHovering(true);
-  }, []);
+  }, [id, mediaType, videoResponseFetched]);
 
   const onMouseLeave = useCallback(() => {
     if (hoverContainerRef.current) {
       hoverContainerRef.current.style.willChange = 'auto';
     }
 
+    setPlayVideoOpacityAnimation(false);
+    setCanShowVideo(true);
+
     setIsHovering(false);
   }, []);
 
   useEffect(() => {
     let cardContainerRefValue = cardContainerRef.current;
+    let onHoverCheck = onHoverData && document.body.clientWidth > 1260;
+    let onHoverTimer: any;
 
-    if (onHoverData && document.body.clientWidth > 900 && cardContainerRefValue) {
-      cardContainerRefValue.addEventListener('mouseover', onMouseOver);
-      cardContainerRefValue.addEventListener('mouseleave', onMouseLeave);
+    if (onHoverCheck && cardContainerRefValue) {
+      cardContainerRefValue.addEventListener('mouseenter', () => {
+        onHoverTimer = setTimeout(() => {
+          onMouseEnter();
+        }, 500);
+      });
+
+      cardContainerRefValue.addEventListener('mouseleave', () => {
+        clearTimeout(onHoverTimer);
+        onMouseLeave();
+      });
 
       return () => {
-        cardContainerRefValue?.removeEventListener('mouseenter', onMouseOver);
-        cardContainerRefValue?.removeEventListener('mouseleave', onMouseLeave);
+        cardContainerRefValue?.removeEventListener('mouseenter', () => {
+          onHoverTimer();
+          onMouseEnter();
+        });
+        cardContainerRefValue?.removeEventListener('mouseleave', () => {
+          clearTimeout(onHoverTimer);
+          onMouseLeave();
+        });
       };
     }
-  }, [onMouseOver, onMouseLeave, onHoverData]);
+  }, [onMouseEnter, onMouseLeave, onHoverData]);
+
+  const onYoutubeVideoReady = (e: { target: { getPlayerState: () => number } }) => {
+    if (e.target.getPlayerState() === -1) {
+      setCanShowVideo(false);
+
+      return;
+    }
+
+    setPlayVideoOpacityAnimation(true);
+  };
 
   return (
     <>
@@ -119,16 +197,28 @@ const Card = ({ id, mediaType, title, posterSrc, onHoverData }: CardProps) => {
 
             {mediaType !== 'person' && onHoverData && isHovering ? (
               <S.HoverContainer position={position} ref={hoverContainerRef}>
-                <S.HoverImage>
-                  {onHoverData.backdropSrc ? (
-                    <img
-                      src={Tmdb.image(`w500/${onHoverData.backdropSrc}`)}
-                      alt={onHoverData.title}
+                <S.HoverImageContainer>
+                  <S.FallbackBackdrop>
+                    {onHoverData.backdropSrc ? (
+                      <img
+                        src={Tmdb.image(`w500/${onHoverData.backdropSrc}`)}
+                        alt={onHoverData.title}
+                      />
+                    ) : (
+                      <img src={NoPosterPlaceholder} alt={onHoverData.title} />
+                    )}
+                  </S.FallbackBackdrop>
+
+                  {mediaVideoId && canShowVideo && (
+                    <S.VideoWrapper
+                      videoId={mediaVideoId}
+                      /* @ts-ignore */
+                      opts={YoutubePlayerOptions}
+                      onReady={onYoutubeVideoReady}
+                      playVideoOpacityAnimation={playVideoOpacityAnimation}
                     />
-                  ) : (
-                    <img src={NoPosterPlaceholder} alt={onHoverData.title} />
                   )}
-                </S.HoverImage>
+                </S.HoverImageContainer>
 
                 <S.HoverDetails>
                   <header>
