@@ -96,7 +96,7 @@ const SearchPage = () => {
         <br />
 
         {isLoading ? (
-          <Grid cols={6}>
+          <Grid cols={6} gap="16px 10px">
             {[...Array(6)].map((i) => (
               <CardSkeleton key={i} />
             ))}
@@ -110,7 +110,7 @@ const SearchPage = () => {
               </S.NotFoundWrapper>
             )}
 
-            <Grid cols={6}>
+            <Grid cols={6} gap="16px 10px">
               {searchData
                 ? searchData.map((item: any) => (
                     <Card

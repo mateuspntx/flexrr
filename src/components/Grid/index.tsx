@@ -1,12 +1,17 @@
 import * as S from './styles';
 
 interface GridProps {
-  cols: number;
   children: React.ReactNode;
+  cols: number;
+  gap?: string;
 }
 
-const Grid = ({ cols, children }: GridProps) => {
-  return <S.Container colsNumber={cols}>{children}</S.Container>;
+const Grid = ({ cols, gap, children }: GridProps) => {
+  return (
+    <S.Container colsNumber={cols} gapNumber={gap}>
+      {children}
+    </S.Container>
+  );
 };
 
 export default Grid;

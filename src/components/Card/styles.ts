@@ -27,6 +27,7 @@ export const Container = styled.div<ContainerProps>`
   min-height: 150px;
   height: 100%;
   border-radius: 5px;
+  align-items: center;
 
   ${({ isLoading }) =>
     isLoading
@@ -39,7 +40,6 @@ export const Container = styled.div<ContainerProps>`
     min-height: unset;
     min-width: 100px;
     width: 113px;
-    height: 170.77px;
   }
 `;
 
@@ -68,16 +68,13 @@ export const Details = styled.div`
   > h3 {
     max-width: 145px;
     width: 20vw;
-    margin-top: 10px;
+    margin-top: 5px;
     font-weight: normal;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: center;
-
-    @media (max-width: 500px) {
-      font-size: 14px;
-    }
+    font-size: clamp(12px, 1.2vw, 18px);
   }
 `;
 
