@@ -1,5 +1,3 @@
-import { lighten } from 'polished';
-
 const theme = {
   colors: {
     backgroundColor: '#121212',
