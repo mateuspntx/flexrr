@@ -6,6 +6,7 @@ const theme = {
     textSecondary: '#a2a2a2',
     orange: '#FFB800',
     gray: '#BCBCBC',
+    red: '#b03a3a',
     shimmerEffect: '#292929',
     gradients: {
       orangeToTransparent:
