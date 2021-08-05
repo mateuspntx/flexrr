@@ -1,6 +1,8 @@
 import { memo, useRef } from 'react';
 import { Link, NavLink, useHistory } from 'react-router-dom';
 
+import UserDropdown from '../UserDropdown';
+
 import * as S from './styles';
 
 const Navbar = () => {
@@ -37,6 +39,10 @@ const Navbar = () => {
         <NavLink to="/tv" exact activeClassName="isActive">
           TV Shows
         </NavLink>
+
+        <S.UserDropdownWrapper>
+          <UserDropdown />
+        </S.UserDropdownWrapper>
       </S.MenuWrapper>
     </S.Container>
   );

@@ -41,4 +41,6 @@ export const StyledInput = styled(Input)`
 
 export const StyledButton = styled(Button)`
   margin-top: 1rem;
+  font-size: 1.1rem;
+  padding: 1rem;
 `;

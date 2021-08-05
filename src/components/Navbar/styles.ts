@@ -134,3 +134,11 @@ export const SearchButton = styled.button`
     }
   }
 `;
+
+export const UserDropdownWrapper = styled.div`
+  margin-left: 1rem;
+
+  @media (max-width: 500px) {
+    margin-left: 0;
+  }
+`;

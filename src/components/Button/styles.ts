@@ -32,8 +32,8 @@ const orangeVariant = css`
 export const Button = styled.button<ButtonsProps>`
   border: none;
   border-radius: 4px;
-  padding: 1rem;
-  font-size: 1.1rem;
+  padding: 0.5rem;
+  font-size: 1rem;
   width: 100%;
   transition: box-shadow 1s ease, background-color 0.2s ease;
 
