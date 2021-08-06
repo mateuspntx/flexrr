@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Redirect, useLocation } from 'react-router';
+import SyncLoader from 'react-spinners/SyncLoader';
 
 import Tmdb from '../../services/tmdb';
 
@@ -11,6 +12,7 @@ import Card from '../../components/Card';
 import CardSkeleton from '../../components/Skeletons/Card';
 
 import * as S from './styles';
+import Button from '../../components/Button';
 
 const SearchPage = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -63,8 +65,6 @@ const SearchPage = () => {
   useEffect(() => {
     const loadMoreDiv = document.querySelector('#loadMoreDiv') as Element;
 
-    const options = { rootMargin: '20%', threshold: 1.0 };
-
     const intersectionObserver = new IntersectionObserver((entries) => {
       if (entries.some((entry) => entry.isIntersecting)) {
         if (pageNumber === totalPages) {
@@ -73,7 +73,7 @@ const SearchPage = () => {
 
         setPageNumber((prevPageNumber) => prevPageNumber + 1);
       }
-    }, options);
+    });
 
     if (!isLoading && loadMoreDiv) {
       intersectionObserver.observe(loadMoreDiv);
@@ -132,12 +132,18 @@ const SearchPage = () => {
             </Grid>
 
             {pageNumber !== totalPages && totalPages > 1 && (
-              <S.Footer>{isLoadingMore && 'Loading..'}</S.Footer>
+              <S.Footer>
+                {isLoadingMore && (
+                  <Button style={{ width: '80px' }}>
+                    {!isLoadingMore ? 'Load more' : <SyncLoader size={5} />}
+                  </Button>
+                )}
+              </S.Footer>
             )}
           </>
         )}
 
-        {!isLoading && <div id="loadMoreDiv"></div>}
+        {!isLoading && searchData.length > 19 && <div id="loadMoreDiv"></div>}
       </Layout>
     </>
   );
