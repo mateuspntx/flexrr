@@ -22,15 +22,15 @@
 </h4>
 
 <p align="center">
+  <a href="https://flexrr.vercel.app/">Demo</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#rocket-technologies">Technologies</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#memo-license">License</a>
 </p>
 
-![App Screenshot](https://i.imgur.com/mHzB1dt.png)
-![App Screenshot](https://i.imgur.com/yUVL10D.png)
-![App Screenshot](https://i.imgur.com/bdbbpLS.png)
-
-<p align="center">Made using <a href="https://app.shotsnapp.com/">Shotsnapp<a></p>
+![Home Screenshot](https://i.imgur.com/liSEHgW.png)
+![Movie Details Screenshot](https://i.imgur.com/6D1LNj4.png)
+![Movies Discover Screenshot](https://i.imgur.com/JiHrUaF.png)
+![Watchlist Screenshot](https://i.imgur.com/bFMJ9JR.png)
 
 <br>
 
@@ -40,9 +40,13 @@
 - [Typescript][ts]
 - [styled-components](https://www.styled-components.com/)
 - [react-router-dom](https://reactrouter.com/)
-- [VS Code][vscode] with [EditorConfig][vceditconfig] and [ESLint][vceslint]
-- [Vercel](https://vercel.com/) (Deployment)
+- [polished](https://github.com/styled-components/polished)
+- [react-youtube](https://github.com/tjallingt/react-youtube)
+- [react-spinners](https://github.com/davidhu2000/react-spinners)
+- [use-context-selector](https://github.com/dai-shi/use-context-selector)
 - [TMDB API](https://www.themoviedb.org/)
+- [Vercel](https://vercel.com/) (Deployment)
+- [VS Code][vscode] with [EditorConfig][vceditconfig] and [ESLint][vceslint]
 
 All design/UI was also made by me.
 
