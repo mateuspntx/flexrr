@@ -11,6 +11,10 @@ export const Container = styled.nav`
   padding: 1.5rem 0;
   color: ${({ theme }) => theme.colors.orange};
 
+  .isActive {
+    font-weight: bold;
+  }
+
   @media (max-width: 500px) {
     margin-top: -15px;
     flex-direction: column;
@@ -37,7 +41,7 @@ export const MenuWrapper = styled.section`
   align-items: center;
 
   > a {
-    font-weight: 500;
+    font-weight: 400;
     font-size: 18px;
     margin-left: 24px;
     color: ${({ theme }) => theme.colors.orange};
@@ -128,5 +132,13 @@ export const SearchButton = styled.button`
       margin-right: -25px;
       margin-bottom: 1rem;
     }
+  }
+`;
+
+export const UserDropdownWrapper = styled.div`
+  margin-left: 1rem;
+
+  @media (max-width: 500px) {
+    margin-left: 0;
   }
 `;

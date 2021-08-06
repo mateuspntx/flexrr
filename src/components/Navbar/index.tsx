@@ -1,5 +1,7 @@
 import { memo, useRef } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, NavLink, useHistory } from 'react-router-dom';
+
+import UserDropdown from '../UserDropdown';
 
 import * as S from './styles';
 
@@ -28,9 +30,19 @@ const Navbar = () => {
           <S.SearchInput placeholder="Movies, TV Shows, People..." ref={searchInputRef} />
         </S.SearchWrapper>
 
-        <Link to="/">Discover</Link>
-        <Link to="/movie">Movies</Link>
-        <Link to="/tv">TV Shows</Link>
+        <NavLink to="/" exact activeClassName="isActive">
+          Discover
+        </NavLink>
+        <NavLink to="/movie" exact activeClassName="isActive">
+          Movies
+        </NavLink>
+        <NavLink to="/tv" exact activeClassName="isActive">
+          TV Shows
+        </NavLink>
+
+        <S.UserDropdownWrapper>
+          <UserDropdown />
+        </S.UserDropdownWrapper>
       </S.MenuWrapper>
     </S.Container>
   );
