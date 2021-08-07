@@ -243,7 +243,7 @@ const Tmdb = {
 
   async getAccountWatchlist(
     id: number,
-    mediaType: 'movies' | 'tv',
+    mediaType: string,
     session_id: string,
     page?: number
   ) {
@@ -260,9 +260,9 @@ const Tmdb = {
   },
 
   async handleAccountWatchlist(
-    id: number,
+    userId: number,
     session_id: string,
-    mediaType: 'movie' | 'tv',
+    mediaType: string,
     mediaId: number,
     action: 'add' | 'remove'
   ) {
@@ -277,7 +277,7 @@ const Tmdb = {
     }
 
     try {
-      const response = await api.post(`/account/${id}/watchlist`, {
+      const response = await api.post(`/account/${userId}/watchlist`, {
         params: `session_id=${session_id}`,
         body: {
           media_type: mediaType,
@@ -289,6 +289,19 @@ const Tmdb = {
       return response.json();
     } catch (err) {
       console.error(err);
+    }
+  },
+
+  async getMediaAccountStates(mediaId: number, mediaType: string, session_id: string) {
+    try {
+      const response = await api.get(
+        `/${mediaType}/${mediaId}/account_states`,
+        `session_id=${session_id}`
+      );
+
+      return response.json();
+    } catch (err) {
+      console.log(err);
     }
   },
 };
