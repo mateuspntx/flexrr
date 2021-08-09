@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { darken } from 'polished';
 
 import { ShimmerEffect } from '../Skeletons/ShimmerEffect';
 
@@ -44,7 +45,7 @@ export const Poster = styled.img`
   width: 25vw;
   height: 100%;
   border-radius: 10px;
-  /* box-shadow: 0px 0px 25px -8px #000000; */
+  box-shadow: 0px 0px 25px -8px #000000;
   object-fit: cover;
 
   ${ShimmerEffect}
@@ -69,17 +70,33 @@ export const TitleWrapper = styled.div`
   display: flex;
   align-items: center;
 
-  > h3 {
+  > p {
     font-size: 20px;
     font-weight: normal;
-    color: ${({ theme }) => theme.colors.gray};
+    color: ${({ theme }) => darken(0.2, theme.colors.text)};
     margin-left: 15px;
+    margin-top: -5px;
+  }
+
+  @media (max-width: 520px) {
+    flex-direction: column;
+    align-items: flex-start;
+
+    > p {
+      font-size: 16px;
+      margin-bottom: 10px;
+      margin-left: 0;
+    }
   }
 `;
 
 export const Title = styled.h1`
   font-size: 34px;
   margin-bottom: 10px;
+
+  @media (max-width: 520px) {
+    font-size: 28px;
+  }
 `;
 
 export const DetailsHeader = styled.div`
@@ -88,6 +105,7 @@ export const DetailsHeader = styled.div`
 
 export const FactsWrapper = styled.ul`
   display: flex;
+  color: ${({ theme }) => darken(0.2, theme.colors.text)};
 
   > li {
     list-style-position: inside;
@@ -110,13 +128,19 @@ export const FactsWrapper = styled.ul`
   }
 `;
 
+export const ButtonsWrapper = styled.div`
+  margin-top: 20px;
+  transform-origin: 0px;
+  transform: scale(1.3);
+
+  @media (max-width: 520px) {
+    transform: unset;
+  }
+`;
+
 export const Overview = styled.p`
   margin: 2rem 0;
-  font-size: 18px;
-
-  @media (max-width: 920px) {
-    font-size: 16px;
-  }
+  font-size: 16px;
 `;
 
 export const FeaturedImagesWrapper = styled.div`
