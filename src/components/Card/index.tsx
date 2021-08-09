@@ -45,6 +45,8 @@ const Card = ({ id, mediaType, title, posterSrc, onHoverData }: CardProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isHovering, setIsHovering] = useState<boolean>(false);
   const [position, setPosition] = useState<CardPosition>(CardPositionInitialState);
+  const [playHoverEnterAnimation, setPlayHoverEnterAnimation] = useState<boolean>(false);
+  const [playHoverLeaveAnimation, setPlayHoverLeaveAnimation] = useState<boolean>(false);
 
   const [mediaVideoId, setMediaVideoId] = useState<string>('');
   const [videoResponseFetched, setVideoResponseFetched] = useState<boolean>(false);
@@ -72,7 +74,9 @@ const Card = ({ id, mediaType, title, posterSrc, onHoverData }: CardProps) => {
     },
   };
 
-  const onMouseEnter = useCallback(() => {
+  const onMouseEnter = useCallback(async () => {
+    await setIsHovering(true);
+
     if (!cardContainerRef || !cardContainerRef.current) {
       return;
     }
@@ -86,41 +90,83 @@ const Card = ({ id, mediaType, title, posterSrc, onHoverData }: CardProps) => {
 
     setPosition({ top, left, right });
 
-    const fetchVideoData = async () => {
-      try {
-        if (videoResponseFetched) {
-          return;
-        }
+    if (!isHovering) {
+      setPlayHoverLeaveAnimation(false);
+      setPlayHoverEnterAnimation(true);
 
-        const videoResponse = await Tmdb.getVideos(mediaType, id);
+      const onAnimationEnd = () => {
+        const fetchVideoData = async () => {
+          try {
+            if (videoResponseFetched) {
+              return;
+            }
 
-        const trailerId = videoResponse.results.filter(
-          (video: { type: string }) => video.type === 'Trailer'
+            const videoResponse = await Tmdb.getVideos(mediaType, id);
+
+            const trailerId = videoResponse.results.filter(
+              (video: { type: string }) => video.type === 'Trailer'
+            );
+
+            setMediaVideoId(trailerId[0].key);
+
+            setVideoResponseFetched(true);
+          } catch (err) {
+            console.log(err);
+          }
+        };
+
+        fetchVideoData();
+      };
+
+      const onAnimationCancel = async () => {
+        await setIsHovering(false);
+        setPlayHoverEnterAnimation(false);
+      };
+
+      hoverContainerRef.current?.addEventListener('animationend', onAnimationEnd);
+      hoverContainerRef.current?.addEventListener('animationcancel', onAnimationCancel);
+
+      return () => {
+        hoverContainerRef.current?.removeEventListener('animationend', onAnimationEnd);
+        hoverContainerRef.current?.removeEventListener(
+          'animationcancel',
+          onAnimationCancel
         );
-
-        setMediaVideoId(trailerId[0].key);
-
-        setVideoResponseFetched(true);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    fetchVideoData();
-
-    setIsHovering(true);
-  }, [id, mediaType, videoResponseFetched]);
+      };
+    }
+  }, [id, isHovering, mediaType, videoResponseFetched]);
 
   const onMouseLeave = useCallback(() => {
-    if (hoverContainerRef.current) {
-      hoverContainerRef.current.style.willChange = 'auto';
+    if (isHovering) {
+      setPlayHoverEnterAnimation(false);
+      setPlayHoverLeaveAnimation(true);
+
+      if (hoverContainerRef.current) {
+        hoverContainerRef.current.style.willChange = 'auto';
+      }
+
+      const onAnimationEnd = async () => {
+        await setIsHovering(false);
+        setPlayHoverLeaveAnimation(false);
+      };
+
+      const onAnimationCancel = async () => {
+        await setIsHovering(false);
+        setPlayHoverLeaveAnimation(false);
+      };
+
+      hoverContainerRef.current?.addEventListener('animationend', onAnimationEnd);
+      hoverContainerRef.current?.addEventListener('animationcancel', onAnimationCancel);
+
+      return () => {
+        hoverContainerRef.current?.removeEventListener('animationend', onAnimationEnd);
+        hoverContainerRef.current?.removeEventListener(
+          'animationcancel',
+          onAnimationCancel
+        );
+      };
     }
-
-    setPlayVideoOpacityAnimation(false);
-    setCanShowVideo(true);
-
-    setIsHovering(false);
-  }, []);
+  }, [isHovering]);
 
   useEffect(() => {
     let cardContainerRefValue = cardContainerRef.current;
@@ -197,7 +243,12 @@ const Card = ({ id, mediaType, title, posterSrc, onHoverData }: CardProps) => {
               ))}
 
             {mediaType !== 'person' && onHoverData && isHovering ? (
-              <S.HoverContainer position={position} ref={hoverContainerRef}>
+              <S.HoverContainer
+                position={position}
+                ref={hoverContainerRef}
+                playHoverEnterAnimation={playHoverEnterAnimation}
+                playHoverLeaveAnimation={playHoverLeaveAnimation}
+              >
                 <S.HoverImageContainer>
                   <S.FallbackBackdrop>
                     {onHoverData.backdropSrc ? (

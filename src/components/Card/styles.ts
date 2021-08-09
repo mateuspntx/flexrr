@@ -10,6 +10,8 @@ import { CardPosition } from './index';
 
 interface HoverContainerProps {
   position: CardPosition;
+  playHoverEnterAnimation: boolean;
+  playHoverLeaveAnimation: boolean;
 }
 
 interface ContainerProps {
@@ -78,7 +80,7 @@ export const Details = styled.div`
   }
 `;
 
-const HoverContainerAnimation = keyframes`
+const HoverContainerAnimationEnter = keyframes`
   0% {
     opacity: 0;
     transform: translateZ(0) scale(0.95);
@@ -86,6 +88,17 @@ const HoverContainerAnimation = keyframes`
   100% {
     opacity: 1;
     transform: translateZ(0) scale(1.265);
+  }
+`;
+
+const HoverContainerAnimationLeave = keyframes`
+  0% {
+    opacity: 1;
+    transform: translateZ(0) scale(1.265);
+  }
+  100% {
+    opacity: 0;
+    transform: translateZ(0) scale(0.95);
   }
 `;
 
@@ -130,9 +143,22 @@ export const HoverContainer = styled.div<HoverContainerProps>`
   background: ${({ theme }) => lighten(0.05, theme.colors.backgroundSecondary)};
   box-shadow: 0px 0px 10px #000;
   border-radius: 5px;
-  animation: ${HoverContainerAnimation} 0.3s cubic-bezier(0.215, 0.61, 0.355, 1) 1ms both;
   text-shadow: 0px 0px 3px #000;
   z-index: 100;
+
+  ${({ playHoverEnterAnimation }) =>
+    playHoverEnterAnimation &&
+    css`
+      animation: ${HoverContainerAnimationEnter} 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)
+        1ms both;
+    `}
+
+  ${({ playHoverLeaveAnimation }) =>
+    playHoverLeaveAnimation &&
+    css`
+      animation: ${HoverContainerAnimationLeave} 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)
+        1ms both;
+    `}
 
   @media (max-width: 900px) {
     display: none;
