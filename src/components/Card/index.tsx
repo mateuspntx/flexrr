@@ -11,6 +11,7 @@ import * as S from './styles';
 
 import NoPosterPlaceholder from '../../assets/images/no_poster-placeholder.png';
 import DefaultUserAvatar from '../../assets/images/light_default_user-avatar.png';
+import WatchlistButton from '../WatchlistButton';
 
 interface CardProps {
   id: string;
@@ -222,7 +223,19 @@ const Card = ({ id, mediaType, title, posterSrc, onHoverData }: CardProps) => {
 
                 <S.HoverDetails>
                   <header>
-                    <h4>{onHoverData.title}</h4>
+                    <h4>{onHoverData.title} </h4>
+
+                    <Link
+                      to={(location) => ({
+                        ...location,
+                        hash: '#',
+                      })}
+                    >
+                      <S.WatchlistButtonWrapper>
+                        <WatchlistButton mediaId={id} mediaType={mediaType} />
+                      </S.WatchlistButtonWrapper>
+                    </Link>
+
                     <p>{truncateText(String(onHoverData.overview), 150)}</p>
                   </header>
                   <footer>

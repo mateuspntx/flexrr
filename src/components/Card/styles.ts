@@ -124,7 +124,7 @@ export const HoverContainer = styled.div<HoverContainerProps>`
   width: 25vw;
   height: 35vw;
   max-width: 365px;
-  max-height: 375px;
+  max-height: 395px;
   display: flex;
   flex-direction: column;
   background: ${({ theme }) => lighten(0.05, theme.colors.backgroundSecondary)};
@@ -144,10 +144,10 @@ export const HoverImageContainer = styled.div`
 `;
 
 export const HoverDetails = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   height: 100%;
-  justify-content: space-around;
   padding: 0 1rem;
   gap: 5px;
   animation: ${HoverDetailsAnimation} 0.4s 30ms both;
@@ -158,21 +158,32 @@ export const HoverDetails = styled.div`
 
   header {
     h4 {
-      margin-bottom: 5px;
+      margin-top: 20px;
+      margin-bottom: 25px;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
     p {
+      margin-top: 25px;
       color: ${({ theme }) => theme.colors.textSecondary};
     }
   }
 
   footer {
+    position: absolute;
+    width: 90%;
+    bottom: 10px;
     display: flex;
     justify-content: space-between;
     align-items: baseline;
   }
+`;
+
+export const WatchlistButtonWrapper = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 15px;
 `;
 
 export const VideoWrapper = styled(YouTube)<{ playVideoOpacityAnimation?: boolean }>`
