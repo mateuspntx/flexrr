@@ -5,6 +5,8 @@ import Tmdb from '../../services/tmdb';
 
 import { useAuth } from '../../contexts/auth';
 
+import useDocumentTitle from '../../hooks/useDocumentTitle';
+
 import Layout from '../../components/Layout';
 import Grid from '../../components/Grid';
 import Card from '../../components/Card';
@@ -14,6 +16,8 @@ import * as S from './styles';
 
 const Watchlist = () => {
   const { token, user } = useAuth();
+
+  useDocumentTitle('Watchlist - Flexrr');
 
   const [watchlist, setWatchlist] = useState([] as any);
   const [mediaType, setMediaType] = useState<'movies' | 'tv'>('movies');
