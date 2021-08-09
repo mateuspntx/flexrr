@@ -13,6 +13,7 @@ import Backdrop from '../../components/Backdrop';
 import CarouselSlider from '../../components/CarouselSlider';
 import HeroSkeleton from '../Skeletons/Hero';
 import Modal from '../Modal';
+import WatchlistButton from '../WatchlistButton';
 
 import * as S from './styles';
 
@@ -121,7 +122,7 @@ const Hero = ({ id, mediaType, variant, featured }: HeroProps) => {
                       <S.Title>{detailsData.title || detailsData.original_name}</S.Title>
 
                       {detailsData.release_date ? (
-                        <h3>({getMovieReleaseDate(detailsData.release_date).year})</h3>
+                        <p>({getMovieReleaseDate(detailsData.release_date).year})</p>
                       ) : null}
                     </S.TitleWrapper>
 
@@ -140,6 +141,10 @@ const Hero = ({ id, mediaType, variant, featured }: HeroProps) => {
                         </li>
                       ) : null}
                     </S.FactsWrapper>
+
+                    <S.ButtonsWrapper>
+                      <WatchlistButton mediaId={id} mediaType={mediaType} />
+                    </S.ButtonsWrapper>
                   </S.DetailsHeader>
 
                   <S.Overview>{detailsData.overview}</S.Overview>
