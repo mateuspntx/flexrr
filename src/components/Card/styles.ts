@@ -116,23 +116,74 @@ const HoverDetailsAnimation = keyframes`
 export const HoverContainer = styled.div<HoverContainerProps>`
   position: fixed;
 
-  top: ${({ position }) => position.top}px;
+  ${({ position }) => {
+    if (!position.top || !position.bottom) {
+      return;
+    }
 
-  left: ${({ position }) => {
+    if (position.top <= window.innerHeight / 8) {
+      return css`
+        top: ${position.top + 20}px;
+      `;
+    }
+
+    if (
+      document.body.offsetWidth <= 1900 &&
+      position.bottom >= window.innerHeight - 170
+    ) {
+      return css`
+        top: ${position.top - 160}px;
+      `;
+    }
+
+    return css`
+      top: ${position.top - 25}px;
+    `;
+  }};
+
+  ${({ position }) => {
     if (!position.right || !position.left) {
       return;
     }
 
+    if (
+      document.body.offsetWidth <= 1910 &&
+      position.left < document.body.offsetWidth / 6
+    ) {
+      return css`
+        left: ${position.left - 20}px;
+        transform-origin: 0%;
+      `;
+    }
+
     if (position.left < 100) {
-      return position.left + 10;
+      return css`
+        left: ${position.left - 20}px;
+        transform-origin: 0%;
+      `;
     }
 
-    if (position.right > 1100) {
-      return position.left - 120;
+    if (
+      document.body.offsetWidth >= 1910 &&
+      position.right > document.body.offsetWidth - 200
+    ) {
+      return css`
+        left: ${position.left - 95}px;
+        transform-origin: 100%;
+      `;
     }
 
-    return position.left - 65;
-  }}px;
+    if (position.right > document.body.offsetWidth - 200) {
+      return css`
+        left: ${position.left - 135}px;
+        transform-origin: 100%;
+      `;
+    }
+
+    return css`
+      left: ${position.left - 65}px;
+    `;
+  }};
 
   width: 25vw;
   height: 35vw;
