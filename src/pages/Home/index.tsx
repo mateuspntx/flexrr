@@ -9,6 +9,7 @@ import Grid from '../../components/Grid';
 import Card from '../../components/Card';
 import Hero from '../../components/Hero';
 import CardSkeleton from '../../components/Skeletons/Card';
+import WatchlistCarousel from '../../components/WatchlistCarousel';
 
 import { TrendingResponse } from '../../types/tmdb';
 
@@ -39,6 +40,10 @@ const Home = () => {
           featured={trendingList[0] as any}
           variant="simple"
         />
+
+        <S.WatchlistCarouselWrapper>
+          <WatchlistCarousel mediaType={'movies'} />
+        </S.WatchlistCarouselWrapper>
 
         <S.WhatsPopular>
           <h1>What's Popular</h1>
