@@ -33,12 +33,14 @@ export interface CardPosition {
   top: number | undefined;
   left: number | undefined;
   right: number | undefined;
+  bottom: number | undefined;
 }
 
 const CardPositionInitialState = {
   top: 0,
   left: 0,
   right: 0,
+  bottom: 0,
 };
 
 const Card = ({ id, mediaType, title, posterSrc, onHoverData }: CardProps) => {
@@ -75,20 +77,31 @@ const Card = ({ id, mediaType, title, posterSrc, onHoverData }: CardProps) => {
   };
 
   const onMouseEnter = useCallback(async () => {
-    await setIsHovering(true);
-
     if (!cardContainerRef || !cardContainerRef.current) {
       return;
     }
 
-    const { top, left, right } =
+    const { top, left, right, bottom } =
       cardContainerRef?.current?.getBoundingClientRect() as DOMRect;
 
     if (hoverContainerRef.current) {
       hoverContainerRef.current.style.willChange = 'transform, opacity';
     }
 
-    setPosition({ top, left, right });
+    if (
+      top < -100 ||
+      left < 0 ||
+      right > document.body.offsetWidth - 60 ||
+      top > window.innerHeight - 250
+    ) {
+      return;
+    }
+
+    await setIsHovering(true);
+
+    setPosition({ top, left, right, bottom });
+
+    console.log({ top, bottom });
 
     if (!isHovering) {
       setPlayHoverLeaveAnimation(false);
