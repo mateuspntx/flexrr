@@ -245,12 +245,15 @@ const Tmdb = {
     id: number,
     mediaType: string,
     session_id: string,
-    page?: number
+    page?: number,
+    sort_by?: string
   ) {
     try {
       const response = await api.get(
         `/account/${id}/watchlist/${mediaType}`,
-        `session_id=${session_id}&page=${page || 1}`
+        `session_id=${session_id}&page=${page || 1}&sort_by=${
+          sort_by || 'created_at.desc'
+        }`
       );
 
       return response.json();
