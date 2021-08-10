@@ -1,6 +1,5 @@
 import { useRef, useState } from 'react';
-import { useHistory } from 'react-router';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory, useLocation } from 'react-router';
 import SyncLoader from 'react-spinners/SyncLoader';
 
 import { useAuth } from '../../contexts/auth';
@@ -15,6 +14,10 @@ import * as S from './styles';
 const LoginPage = () => {
   const { token, onLogin } = useAuth();
   const history = useHistory();
+
+  const location = useLocation();
+  const useQuery = () => new URLSearchParams(location.search);
+  const redirectToPath = useQuery().get('redirect_to');
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -33,7 +36,11 @@ const LoginPage = () => {
 
       await onLogin(username.value, password.value);
 
-      history.push('/watchlist');
+      if (redirectToPath) {
+        history.push(redirectToPath);
+      } else {
+        history.push('/watchlist');
+      }
     } catch {
       setError(true);
       setIsLoading(false);

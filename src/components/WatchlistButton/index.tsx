@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 import BeatLoader from 'react-spinners/BeatLoader';
 
 import Tmdb from '../../services/tmdb';
@@ -20,6 +20,8 @@ interface WatchlistButtonProps {
 const WatchlistButton = ({ mediaId, mediaType }: WatchlistButtonProps) => {
   const { user, token } = useAuth();
   const history = useHistory();
+
+  const location = useLocation();
 
   const [isOnWatchlist, setIsOnWatchlist] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -51,7 +53,7 @@ const WatchlistButton = ({ mediaId, mediaType }: WatchlistButtonProps) => {
 
   const addToWatchlist = useCallback(async () => {
     if (!token || !user) {
-      history.push('/login');
+      history.push(`/login?redirect_to=${location.pathname}`);
 
       return;
     }
@@ -76,7 +78,7 @@ const WatchlistButton = ({ mediaId, mediaType }: WatchlistButtonProps) => {
     } catch (err) {
       console.log(err);
     }
-  }, [history, mediaId, mediaType, token, user]);
+  }, [history, location.pathname, mediaId, mediaType, token, user]);
 
   const removeFromWatchlist = useCallback(async () => {
     if (!token || !user) {
