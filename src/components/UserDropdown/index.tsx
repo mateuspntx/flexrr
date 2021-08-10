@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import Tmdb from '../../services/tmdb';
 
@@ -13,6 +13,7 @@ import * as S from './styles';
 
 const UserDropdown = () => {
   const { user, onLogout } = useAuth();
+  const location = useLocation();
 
   const [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
 
@@ -54,7 +55,7 @@ const UserDropdown = () => {
 
       {!user && (
         <S.Container>
-          <Link to="/login">
+          <Link to={`/login?redirect_to=${location.pathname}`}>
             <p>Login</p>
           </Link>
         </S.Container>
