@@ -14,12 +14,12 @@ export const Container = styled.div`
   left: 0;
 
   > h1 {
+    font-size: 22px;
     margin-bottom: 0.5rem;
   }
 
   @media (max-width: 520px) {
     > h1 {
-      font-size: 22px;
       font-weight: 500;
     }
   }
