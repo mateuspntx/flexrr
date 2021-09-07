@@ -236,3 +236,9 @@ export const Featured = styled.section`
     padding: 2rem;
   }
 `;
+
+export const FeaturedLogoImage = styled.img`
+  width: 300px;
+  height: 130px;
+  object-fit: contain;
+`;
