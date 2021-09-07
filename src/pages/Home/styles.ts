@@ -27,3 +27,13 @@ export const ComedyGenre = styled.section`
     margin-bottom: 15px;
   }
 `;
+
+export const WatchlistCarouselWrapper = styled.div`
+  margin-top: 2rem;
+  margin-bottom: 4rem;
+
+  @media (max-width: 520px) {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+  }
+`;

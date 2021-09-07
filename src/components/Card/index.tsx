@@ -11,6 +11,7 @@ import * as S from './styles';
 
 import NoPosterPlaceholder from '../../assets/images/no_poster-placeholder.png';
 import DefaultUserAvatar from '../../assets/images/light_default_user-avatar.png';
+import WatchlistButton from '../WatchlistButton';
 
 interface CardProps {
   id: string;
@@ -32,18 +33,22 @@ export interface CardPosition {
   top: number | undefined;
   left: number | undefined;
   right: number | undefined;
+  bottom: number | undefined;
 }
 
 const CardPositionInitialState = {
   top: 0,
   left: 0,
   right: 0,
+  bottom: 0,
 };
 
 const Card = ({ id, mediaType, title, posterSrc, onHoverData }: CardProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isHovering, setIsHovering] = useState<boolean>(false);
   const [position, setPosition] = useState<CardPosition>(CardPositionInitialState);
+  const [playHoverEnterAnimation, setPlayHoverEnterAnimation] = useState<boolean>(false);
+  const [playHoverLeaveAnimation, setPlayHoverLeaveAnimation] = useState<boolean>(false);
 
   const [mediaVideoId, setMediaVideoId] = useState<string>('');
   const [videoResponseFetched, setVideoResponseFetched] = useState<boolean>(false);
@@ -71,55 +76,110 @@ const Card = ({ id, mediaType, title, posterSrc, onHoverData }: CardProps) => {
     },
   };
 
-  const onMouseEnter = useCallback(() => {
+  const onMouseEnter = useCallback(async () => {
     if (!cardContainerRef || !cardContainerRef.current) {
       return;
     }
 
-    const { top, left, right } =
+    const { top, left, right, bottom } =
       cardContainerRef?.current?.getBoundingClientRect() as DOMRect;
 
     if (hoverContainerRef.current) {
       hoverContainerRef.current.style.willChange = 'transform, opacity';
     }
 
-    setPosition({ top, left, right });
-
-    const fetchVideoData = async () => {
-      try {
-        if (videoResponseFetched) {
-          return;
-        }
-
-        const videoResponse = await Tmdb.getVideos(mediaType, id);
-
-        const trailerId = videoResponse.results.filter(
-          (video: { type: string }) => video.type === 'Trailer'
-        );
-
-        setMediaVideoId(trailerId[0].key);
-
-        setVideoResponseFetched(true);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    fetchVideoData();
-
-    setIsHovering(true);
-  }, [id, mediaType, videoResponseFetched]);
-
-  const onMouseLeave = useCallback(() => {
-    if (hoverContainerRef.current) {
-      hoverContainerRef.current.style.willChange = 'auto';
+    if (
+      top < -100 ||
+      left < 0 ||
+      right > document.body.offsetWidth - 60 ||
+      top > window.innerHeight - 250
+    ) {
+      return;
     }
 
-    setPlayVideoOpacityAnimation(false);
-    setCanShowVideo(true);
+    await setIsHovering(true);
 
-    setIsHovering(false);
-  }, []);
+    setPosition({ top, left, right, bottom });
+
+    console.log({ top, bottom });
+
+    if (!isHovering) {
+      setPlayHoverLeaveAnimation(false);
+      setPlayHoverEnterAnimation(true);
+
+      const onAnimationEnd = () => {
+        const fetchVideoData = async () => {
+          try {
+            if (videoResponseFetched) {
+              return;
+            }
+
+            const videoResponse = await Tmdb.getVideos(mediaType, id);
+
+            const trailerId = videoResponse.results.filter(
+              (video: { type: string }) => video.type === 'Trailer'
+            );
+
+            setMediaVideoId(trailerId[0].key);
+
+            setVideoResponseFetched(true);
+          } catch (err) {
+            console.log(err);
+          }
+        };
+
+        fetchVideoData();
+      };
+
+      const onAnimationCancel = async () => {
+        await setIsHovering(false);
+        setPlayHoverEnterAnimation(false);
+      };
+
+      hoverContainerRef.current?.addEventListener('animationend', onAnimationEnd);
+      hoverContainerRef.current?.addEventListener('animationcancel', onAnimationCancel);
+
+      return () => {
+        hoverContainerRef.current?.removeEventListener('animationend', onAnimationEnd);
+        hoverContainerRef.current?.removeEventListener(
+          'animationcancel',
+          onAnimationCancel
+        );
+      };
+    }
+  }, [id, isHovering, mediaType, videoResponseFetched]);
+
+  const onMouseLeave = useCallback(() => {
+    if (isHovering) {
+      setPlayHoverEnterAnimation(false);
+      setPlayHoverLeaveAnimation(true);
+
+      if (hoverContainerRef.current) {
+        hoverContainerRef.current.style.willChange = 'auto';
+      }
+
+      const onAnimationEnd = async () => {
+        await setIsHovering(false);
+        setPlayHoverLeaveAnimation(false);
+      };
+
+      const onAnimationCancel = async () => {
+        await setIsHovering(false);
+        setPlayHoverLeaveAnimation(false);
+      };
+
+      hoverContainerRef.current?.addEventListener('animationend', onAnimationEnd);
+      hoverContainerRef.current?.addEventListener('animationcancel', onAnimationCancel);
+
+      return () => {
+        hoverContainerRef.current?.removeEventListener('animationend', onAnimationEnd);
+        hoverContainerRef.current?.removeEventListener(
+          'animationcancel',
+          onAnimationCancel
+        );
+      };
+    }
+  }, [isHovering]);
 
   useEffect(() => {
     let cardContainerRefValue = cardContainerRef.current;
@@ -196,7 +256,12 @@ const Card = ({ id, mediaType, title, posterSrc, onHoverData }: CardProps) => {
               ))}
 
             {mediaType !== 'person' && onHoverData && isHovering ? (
-              <S.HoverContainer position={position} ref={hoverContainerRef}>
+              <S.HoverContainer
+                position={position}
+                ref={hoverContainerRef}
+                playHoverEnterAnimation={playHoverEnterAnimation}
+                playHoverLeaveAnimation={playHoverLeaveAnimation}
+              >
                 <S.HoverImageContainer>
                   <S.FallbackBackdrop>
                     {onHoverData.backdropSrc ? (
@@ -222,7 +287,19 @@ const Card = ({ id, mediaType, title, posterSrc, onHoverData }: CardProps) => {
 
                 <S.HoverDetails>
                   <header>
-                    <h4>{onHoverData.title}</h4>
+                    <h4>{onHoverData.title} </h4>
+
+                    <Link
+                      to={(location) => ({
+                        ...location,
+                        hash: '#',
+                      })}
+                    >
+                      <S.WatchlistButtonWrapper>
+                        <WatchlistButton mediaId={id} mediaType={mediaType} />
+                      </S.WatchlistButtonWrapper>
+                    </Link>
+
                     <p>{truncateText(String(onHoverData.overview), 150)}</p>
                   </header>
                   <footer>

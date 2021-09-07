@@ -10,6 +10,8 @@ import { CardPosition } from './index';
 
 interface HoverContainerProps {
   position: CardPosition;
+  playHoverEnterAnimation: boolean;
+  playHoverLeaveAnimation: boolean;
 }
 
 interface ContainerProps {
@@ -78,7 +80,7 @@ export const Details = styled.div`
   }
 `;
 
-const HoverContainerAnimation = keyframes`
+const HoverContainerAnimationEnter = keyframes`
   0% {
     opacity: 0;
     transform: translateZ(0) scale(0.95);
@@ -86,6 +88,17 @@ const HoverContainerAnimation = keyframes`
   100% {
     opacity: 1;
     transform: translateZ(0) scale(1.265);
+  }
+`;
+
+const HoverContainerAnimationLeave = keyframes`
+  0% {
+    opacity: 1;
+    transform: translateZ(0) scale(1.265);
+  }
+  100% {
+    opacity: 0;
+    transform: translateZ(0) scale(0.95);
   }
 `;
 
@@ -103,36 +116,100 @@ const HoverDetailsAnimation = keyframes`
 export const HoverContainer = styled.div<HoverContainerProps>`
   position: fixed;
 
-  top: ${({ position }) => position.top}px;
+  ${({ position }) => {
+    if (!position.top || !position.bottom) {
+      return;
+    }
 
-  left: ${({ position }) => {
+    if (position.top <= window.innerHeight / 8) {
+      return css`
+        top: ${position.top + 20}px;
+      `;
+    }
+
+    if (
+      document.body.offsetWidth <= 1900 &&
+      position.bottom >= window.innerHeight - 170
+    ) {
+      return css`
+        top: ${position.top - 160}px;
+      `;
+    }
+
+    return css`
+      top: ${position.top - 25}px;
+    `;
+  }};
+
+  ${({ position }) => {
     if (!position.right || !position.left) {
       return;
     }
 
+    if (
+      document.body.offsetWidth <= 1910 &&
+      position.left < document.body.offsetWidth / 6
+    ) {
+      return css`
+        left: ${position.left - 20}px;
+        transform-origin: 0%;
+      `;
+    }
+
     if (position.left < 100) {
-      return position.left + 10;
+      return css`
+        left: ${position.left - 20}px;
+        transform-origin: 0%;
+      `;
     }
 
-    if (position.right > 1100) {
-      return position.left - 120;
+    if (
+      document.body.offsetWidth >= 1910 &&
+      position.right > document.body.offsetWidth - 200
+    ) {
+      return css`
+        left: ${position.left - 95}px;
+        transform-origin: 100%;
+      `;
     }
 
-    return position.left - 65;
-  }}px;
+    if (position.right > document.body.offsetWidth - 200) {
+      return css`
+        left: ${position.left - 135}px;
+        transform-origin: 100%;
+      `;
+    }
+
+    return css`
+      left: ${position.left - 65}px;
+    `;
+  }};
 
   width: 25vw;
   height: 35vw;
   max-width: 365px;
-  max-height: 375px;
+  max-height: 395px;
   display: flex;
   flex-direction: column;
   background: ${({ theme }) => lighten(0.05, theme.colors.backgroundSecondary)};
   box-shadow: 0px 0px 10px #000;
   border-radius: 5px;
-  animation: ${HoverContainerAnimation} 0.3s cubic-bezier(0.215, 0.61, 0.355, 1) 1ms both;
   text-shadow: 0px 0px 3px #000;
   z-index: 100;
+
+  ${({ playHoverEnterAnimation }) =>
+    playHoverEnterAnimation &&
+    css`
+      animation: ${HoverContainerAnimationEnter} 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)
+        1ms both;
+    `}
+
+  ${({ playHoverLeaveAnimation }) =>
+    playHoverLeaveAnimation &&
+    css`
+      animation: ${HoverContainerAnimationLeave} 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)
+        1ms both;
+    `}
 
   @media (max-width: 900px) {
     display: none;
@@ -144,10 +221,10 @@ export const HoverImageContainer = styled.div`
 `;
 
 export const HoverDetails = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   height: 100%;
-  justify-content: space-around;
   padding: 0 1rem;
   gap: 5px;
   animation: ${HoverDetailsAnimation} 0.4s 30ms both;
@@ -158,21 +235,32 @@ export const HoverDetails = styled.div`
 
   header {
     h4 {
-      margin-bottom: 5px;
+      margin-top: 20px;
+      margin-bottom: 25px;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
     p {
+      margin-top: 25px;
       color: ${({ theme }) => theme.colors.textSecondary};
     }
   }
 
   footer {
+    position: absolute;
+    width: 90%;
+    bottom: 10px;
     display: flex;
     justify-content: space-between;
     align-items: baseline;
   }
+`;
+
+export const WatchlistButtonWrapper = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 15px;
 `;
 
 export const VideoWrapper = styled(YouTube)<{ playVideoOpacityAnimation?: boolean }>`

@@ -55,6 +55,7 @@ export const Name = styled.h1`
 `;
 
 export const Text = styled.p`
+  position: relative;
   white-space: pre-wrap;
   max-width: 800px;
   max-height: 500px;
