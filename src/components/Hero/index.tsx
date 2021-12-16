@@ -45,6 +45,7 @@ const Hero = ({ id, mediaType, variant, featured }: HeroProps) => {
   const [featuredImagesList, setFeaturedImagesList] = useState([] as ImagesResponse[]);
   const [imagesModalIsOpen, setImagesModalIsOpen] = useState<boolean>(false);
   const [activeImageSrcOnModal, setActiveSrcImageOnModal] = useState<string>('');
+  const [featuredLogoImage, setFeaturedLogoImage] = useState<any>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -69,8 +70,28 @@ const Hero = ({ id, mediaType, variant, featured }: HeroProps) => {
       }
     };
 
+    const fetchLogoImage = async () => {
+      try {
+        if (!featured) {
+          return;
+        }
+
+        const imagesResponse = await Tmdb.getImages(featured.media_type, featured.id);
+
+        const logoImage = imagesResponse.logos.filter(
+          (image: any) => image.iso_639_1 === 'en'
+        );
+
+        setFeaturedLogoImage(logoImage);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
     variant === 'full' && fetchData();
-  }, [id, mediaType, variant]);
+
+    variant === 'simple' && fetchLogoImage();
+  }, [featured, id, mediaType, variant]);
 
   useDocumentTitle(
     variant === 'full' && !isLoading
@@ -224,7 +245,15 @@ const Hero = ({ id, mediaType, variant, featured }: HeroProps) => {
             />
             <Link to={`${featured.media_type}/${featured.id}`}>
               <S.Featured>
-                <h1>{featured.title || featured.original_name}</h1>
+                {featuredLogoImage.length > 0 ? (
+                  <S.FeaturedLogoImage
+                    width="300px"
+                    src={Tmdb.image(`w300${featuredLogoImage[0].file_path}`)}
+                    alt=""
+                  />
+                ) : (
+                  <h1>{featured.title || featured.original_name}</h1>
+                )}
                 <p>{featured.overview ? truncateText(featured.overview, 200) : null}</p>
               </S.Featured>
             </Link>
